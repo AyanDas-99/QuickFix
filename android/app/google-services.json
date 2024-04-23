@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "315612745871",
+    "project_id": "quickfix-719b0",
+    "storage_bucket": "quickfix-719b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315612745871:android:59f3b653dec76d86b120fa",
+        "android_client_info": {
+          "package_name": "com.theboringapp.quickfix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315612745871-9rle6ej04ultbhcft25jvv3cnvamjadp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theboringapp.quickfix",
+            "certificate_hash": "1d5e1516777631bab2b7ce62c6b6777598ff62dc"
+          }
+        },
+        {
+          "client_id": "315612745871-vfcsmebtftjku038cmk8l2dueaosa6jk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxHeFqSLBp4yUBihqfEUtEyoEVjZ3QsZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315612745871-vfcsmebtftjku038cmk8l2dueaosa6jk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
