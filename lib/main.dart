@@ -5,7 +5,6 @@ import 'package:quickfix/firebase_options.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/state/auth/models/auth_result.dart';
 import 'package:quickfix/view/auth/register_screen_controller.dart';
-import 'package:quickfix/view/payments/payment_screen.dart';
 import 'package:quickfix/view/tabs/tab_controller.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
 

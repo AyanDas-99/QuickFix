@@ -38,15 +38,15 @@ class _TabControllerScreenState extends State<TabControllerScreen> {
         index: currentPage,
         items: const [
           Icon(
-            Icons.home,
+            Icons.home_outlined,
             color: Colors.white,
           ),
           Icon(
-            Icons.shopping_cart,
+            Icons.shopping_cart_outlined,
             color: Colors.white,
           ),
           Icon(
-            CupertinoIcons.cube_box_fill,
+            CupertinoIcons.cube_box,
             color: Colors.white,
           ),
           Icon(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
 import 'package:quickfix/view/tabs/account/login_security_page.dart';
 
@@ -37,6 +39,17 @@ class AccountPage extends StatelessWidget {
               trailing: Icon(Icons.navigate_next),
               onTap: () {},
             ),
+            const SizedBox(height: 10),
+            Consumer(builder: (context, ref, child) {
+              return ListTile(
+                title: Text('Log out'),
+                tileColor: Colors.white30,
+                trailing: Icon(Icons.logout),
+                onTap: () {
+                  ref.read(authRepositoryNotifierProvider.notifier).signOut();
+                },
+              );
+            }),
           ],
         ),
       ),

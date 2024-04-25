@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
@@ -14,11 +15,19 @@ class LoginWithPhone extends ConsumerStatefulWidget {
 class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
+  final FocusNode _phoneFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
-  bool showPassword = false;
   bool otpSent = false;
   String? verificationId;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneFocusNode.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void dispose() {
@@ -37,87 +46,91 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
           key: _formKey,
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Center(
-                    child: SizedBox(
-                      height: 70,
-                      // child: Image.asset("assets/icon/logo.png"),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: SizedBox(
+                        height: 70,
+                        child: Image.asset("assets/logo/quickfix_logo.png"),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "Welcome Back",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 30),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(10),
-                      hintText: "Full Name",
-                      prefixIcon: Icon(Icons.email),
-                      prefixIconColor: Colors.grey,
-                      filled: true,
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Welcome to QuickFix",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    // The validator receives the text that the user has entered.
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your full';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: phoneNumberController,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(10),
-                      hintText: "Phone number",
-                      prefixIcon: Icon(Icons.key),
-                      prefixIconColor: Colors.grey,
-                      filled: true,
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(10),
+                        hintText: "Full Name",
+                        prefixIcon: Icon(Icons.email),
+                        prefixIconColor: Colors.grey,
+                        filled: true,
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your full';
+                        }
+                        return null;
+                      },
                     ),
-                    // The validator receives the text that the user has entered.
-                  ),
-                  const SizedBox(height: 15),
-                  TextButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ref
-                            .read(authRepositoryNotifierProvider.notifier)
-                            .phoneSignUp(
-                              phoneNumber: phoneNumberController.text,
-                              showMessage: (String text) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(text)));
-                              },
-                              codeSent: (id) {
-                                verificationId = id;
-                                print("Code sent from ui");
-                                setState(() {
-                                  otpSent = true;
-                                });
-                              },
-                            );
-                      }
-                    },
-                    child: const Text(
-                      'Get OTP',
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      focusNode: _phoneFocusNode,
+                      controller: phoneNumberController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.all(10),
+                          hintText: "Phone number",
+                          prefixIcon: Icon(Icons.key),
+                          prefixIconColor: Colors.grey,
+                          filled: true,
+                          prefixText: _phoneFocusNode.hasFocus ? '+91 ' : null),
+                      // The validator receives the text that the user has entered.
                     ),
-                  ),
+                    const SizedBox(height: 15),
+                    TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ref
+                              .read(authRepositoryNotifierProvider.notifier)
+                              .phoneSignUp(
+                                phoneNumber: phoneNumberController.text,
+                                showMessage: (String text) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(text)));
+                                },
+                                codeSent: (id) {
+                                  verificationId = id;
+                                  print("Code sent from ui");
+                                  setState(() {
+                                    otpSent = true;
+                                  });
+                                },
+                              );
+                        }
+                      },
+                      child: const Text(
+                        'Get OTP',
+                      ),
+                    ),
 
-                  // Otp section
-                  if (otpSent && verificationId != null)
-                    OtpSection(
-                      verificationId: verificationId!,
-                      name: nameController.text,
-                    )
-                ],
+                    // Otp section
+                    if (otpSent && verificationId != null)
+                      OtpSection(
+                        verificationId: verificationId!,
+                        name: nameController.text,
+                      )
+                  ],
+                ),
               ),
             ),
           )),

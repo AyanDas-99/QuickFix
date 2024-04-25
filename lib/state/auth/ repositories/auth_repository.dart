@@ -143,7 +143,7 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
   }
 
   // CheckOTP
-  Future<void> checkOTP(
+  Future<bool> checkOTP(
       {required String verificationId,
       required String otp,
       required String name}) async {
@@ -156,8 +156,10 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
           authResult: AuthResult.success,
           isLoading: false,
           userId: FirebaseAuth.instance.currentUser!.uid);
+      return true;
     } catch (e) {
       developer.log("OTP check error", error: e);
+      return false;
     }
   }
 

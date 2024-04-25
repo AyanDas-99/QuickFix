@@ -57,7 +57,7 @@ class CategoryItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
           color: selected ? QFTheme.mainGreen : Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
           border: Border.all(color: Colors.black)),
       child: Center(
           child: Text(
