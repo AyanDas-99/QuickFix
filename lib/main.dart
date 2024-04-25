@@ -5,6 +5,9 @@ import 'package:quickfix/firebase_options.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/state/auth/models/auth_result.dart';
 import 'package:quickfix/view/auth/register_screen_controller.dart';
+import 'package:quickfix/view/payments/payment_screen.dart';
+import 'package:quickfix/view/tabs/tab_controller.dart';
+import 'package:quickfix/view/theme/QFTheme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,36 +39,13 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // theme: CustomTheme.lightTheme,
-      // darkTheme: CustomTheme.darkTheme,
-      themeMode: ThemeMode.dark,
+      theme: QFTheme.theme,
       home: Stack(
         children: [
-          if (authState.authResult == AuthResult.success) const HomePage(),
+          if (authState.authResult == AuthResult.success)
+            const TabControllerScreen(),
           if (authState.authResult != AuthResult.success)
             const RegisterScreenController(),
-        ],
-      ),
-    );
-  }
-}
-
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("TItle"),
-      ),
-      body: Column(
-        children: [
-          TextButton(
-              onPressed: () {
-                ref.read(authRepositoryNotifierProvider.notifier).signOut();
-              },
-              child: const Text("Sign out"))
         ],
       ),
     );

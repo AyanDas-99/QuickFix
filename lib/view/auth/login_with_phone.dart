@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -115,7 +113,10 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
 
                   // Otp section
                   if (otpSent && verificationId != null)
-                    OtpSection(verificationId: verificationId!)
+                    OtpSection(
+                      verificationId: verificationId!,
+                      name: nameController.text,
+                    )
                 ],
               ),
             ),
@@ -126,9 +127,11 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
 
 class OtpSection extends ConsumerStatefulWidget {
   final String verificationId;
+  final String name;
   const OtpSection({
     super.key,
     required this.verificationId,
+    required this.name,
   });
 
   @override
@@ -164,7 +167,9 @@ class _OtpSectionState extends ConsumerState<OtpSection> {
         TextButton(
           onPressed: () {
             ref.read(authRepositoryNotifierProvider.notifier).checkOTP(
-                verificationId: widget.verificationId, otp: otpController.text);
+                verificationId: widget.verificationId,
+                otp: otpController.text,
+                name: widget.name);
           },
           child: const Text(
             'Check OTP',

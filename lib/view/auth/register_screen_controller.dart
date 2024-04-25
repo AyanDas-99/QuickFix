@@ -22,7 +22,7 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return LoginWithPhone();
+    // return LoginWithPhone();
     if (loggin) {
       return LoginScreen(onClick);
     }

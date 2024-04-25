@@ -144,11 +144,14 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
 
   // CheckOTP
   Future<void> checkOTP(
-      {required String verificationId, required String otp}) async {
+      {required String verificationId,
+      required String otp,
+      required String name}) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: otp);
       await FirebaseAuth.instance.signInWithCredential(credential);
+      FirebaseAuth.instance.currentUser!.updateDisplayName(name);
       state = AuthState(
           authResult: AuthResult.success,
           isLoading: false,
