@@ -7,13 +7,11 @@ import 'package:quickfix/state/user/strings/user_field_names.dart';
 class UserPayload extends MapView<String, dynamic> {
   UserPayload({
     String? displayName,
-    String? email,
     String? phoneNumber,
     String? photoUrl,
     String? uid,
   }) : super({
           UserFieldNames.displayName: displayName,
-          UserFieldNames.email: email,
           UserFieldNames.phoneNumber: phoneNumber,
           UserFieldNames.photoUrl: photoUrl,
           UserFieldNames.uid: uid,

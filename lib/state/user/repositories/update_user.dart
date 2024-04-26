@@ -33,7 +33,7 @@ class UpdateUserRepository extends _$UpdateUserRepository {
       state = false;
       return true;
     } catch (e) {
-      dev.log("Profile image update", error: e);
+      dev.log("Profile name update", error: e);
       state = false;
       return false;
     }

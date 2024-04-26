@@ -76,7 +76,6 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(isLoading.toString()),
                     Center(
                       child: SizedBox(
                         height: 70,

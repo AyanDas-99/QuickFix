@@ -42,6 +42,7 @@ class _SignUpWithPhoneState extends ConsumerState<SignUpWithPhone> {
     if (_formKey.currentState!.validate()) {
       ref.read(authRepositoryNotifierProvider.notifier).phoneSignUp(
             phoneNumber: '+91${phoneNumberController.text}',
+            name: nameController.text,
             resendToken: resendToken,
             showMessage: (String text) {
               ScaffoldMessenger.of(context)
