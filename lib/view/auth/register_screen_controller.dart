@@ -1,7 +1,6 @@
-import 'package:quickfix/view/auth/login_screen.dart';
 import 'package:quickfix/view/auth/login_with_phone.dart';
 import 'package:quickfix/view/auth/otp_screen.dart';
-import 'package:quickfix/view/auth/sign_up_screen.dart';
+import 'package:quickfix/view/auth/signup_with_phone.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreenController extends StatefulWidget {
@@ -23,11 +22,9 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return OTPScreen();
-    // return LoginWithPhone();
     if (loggin) {
-      return LoginScreen(onClick);
+      return LoginWithPhone(onClick: onClick);
     }
-    return SignUpScreen(onClick);
+    return SignUpWithPhone(onClick: onClick);
   }
 }

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,20 +6,22 @@ import 'package:quickfix/view/auth/otp_screen.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
 
-class LoginWithPhone extends ConsumerStatefulWidget {
+class SignUpWithPhone extends ConsumerStatefulWidget {
   final VoidCallback onClick;
-  const LoginWithPhone({super.key, required this.onClick});
+  const SignUpWithPhone({super.key, required this.onClick});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginWithPhoneState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SignUpWithPhoneState();
 }
 
-class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
+class _SignUpWithPhoneState extends ConsumerState<SignUpWithPhone> {
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final FocusNode _phoneFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
-  int? resentToken;
+  int? resendToken;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
 
   @override
   void dispose() {
+    nameController.dispose();
     phoneNumberController.dispose();
     super.dispose();
   }
@@ -39,21 +41,19 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
   void onLogin() {
     if (_formKey.currentState!.validate()) {
       ref.read(authRepositoryNotifierProvider.notifier).phoneSignUp(
-            resendToken: resentToken,
             phoneNumber: '+91${phoneNumberController.text}',
+            resendToken: resendToken,
             showMessage: (String text) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(text)));
             },
-            codeSent: (String id, int? token) async {
-              resentToken = token;
-              print(resentToken);
-              print(token);
+            codeSent: (String id, int? token) {
+              resendToken = token;
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => OTPScreen(
-                  verificationId: id,
-                  resendToken: resentToken,
                   phoneNumber: '+91${phoneNumberController.text}',
+                  verificationId: id,
+                  name: nameController.text,
                 ),
               ));
             },
@@ -63,8 +63,7 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(
-        authRepositoryNotifierProvider.select((value) => value.isLoading));
+    final isLoading = ref.watch(authRepositoryNotifierProvider).isLoading;
 
     return Scaffold(
       body: Form(
@@ -76,7 +75,6 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(isLoading.toString()),
                     Center(
                       child: SizedBox(
                         height: 70,
@@ -85,11 +83,30 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      "Welcome back to QuickFix",
+                      "Welcome to QuickFix",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 30),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(10),
+                        hintText: "Full Name",
+                        prefixIcon: Icon(Icons.email),
+                        prefixIconColor: Colors.grey,
+                        filled: true,
+                      ),
+                      // The validator receives the text that the user has entered.
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your full name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     TextFormField(
                       focusNode: _phoneFocusNode,
                       controller: phoneNumberController,
@@ -116,22 +133,22 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
                     ),
                     const SizedBox(height: 15),
                     MainButton(
-                      onPressed: (isLoading) ? () {} : onLogin,
-                      backgroundColor: (isLoading)
-                          ? Colors.green.shade300
-                          : QFTheme.mainGreen,
+                      onPressed: isLoading ? () {} : onLogin,
+                      backgroundColor:
+                          isLoading ? Colors.green.shade300 : QFTheme.mainGreen,
                       child: isLoading
                           ? const CircularProgressIndicator()
                           : const Text(
-                              'Login',
+                              'Sign Up',
                               style: TextStyle(color: Colors.white),
                             ),
                     ),
                     const SizedBox(height: 15),
                     MainButton(
-                        onPressed: isLoading ? () {} : widget.onClick,
-                        backgroundColor: Colors.white54,
-                        child: const Text("I don't have an account")),
+                      onPressed: widget.onClick,
+                      backgroundColor: Colors.white54,
+                      child: const Text("Already have an account"),
+                    ),
                   ],
                 ),
               ),

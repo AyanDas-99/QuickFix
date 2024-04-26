@@ -110,15 +110,19 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
   }
 
   // Phone sign up
-  Future<void> phoneSignUp(
-      {required String phoneNumber,
-      required Function(String) showMessage,
-      required Function(String) codeSent}) async {
+  Future<void> phoneSignUp({
+    required String phoneNumber,
+    required Function(String) showMessage,
+    required Function(String, int?) codeSent,
+    int? resendToken,
+  }) async {
     state = state.copyWithIsLoading(true);
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
-      auth.verifyPhoneNumber(
+      await auth.verifyPhoneNumber(
+          forceResendingToken: resendToken,
           phoneNumber: phoneNumber,
+          timeout: const Duration(seconds: 120),
           verificationCompleted: (cred) async {
             await auth.signInWithCredential(cred);
           },
@@ -128,17 +132,22 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
             } else {
               showMessage("Sign in with phone number failed");
             }
-            state = const AuthState(
-                authResult: AuthResult.failed, isLoading: false, userId: null);
+            state = state.copyWithIsLoading(false);
           },
-          codeSent: (verificationId, code) {
+          codeSent: (verificationId, token) {
             developer.log("Code is sent");
-            codeSent(verificationId);
+            state = state.copyWithIsLoading(false);
+            codeSent(verificationId, token);
           },
           codeAutoRetrievalTimeout: (s) {});
     } catch (e) {
       developer.log("Sign in with phone", error: e);
     }
+  }
+
+  void test() async {
+    state = state.copyWithIsLoading(true);
+    await Future.delayed(Duration(seconds: 3));
     state = state.copyWithIsLoading(false);
   }
 
@@ -146,12 +155,16 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
   Future<bool> checkOTP(
       {required String verificationId,
       required String otp,
-      required String name}) async {
+      required Function(String) showMessage,
+      required String? name}) async {
     try {
+      state = state.copyWithIsLoading(true);
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: otp);
       await FirebaseAuth.instance.signInWithCredential(credential);
-      FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+      if (name != null) {
+        FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+      }
       state = AuthState(
           authResult: AuthResult.success,
           isLoading: false,
@@ -159,6 +172,8 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
       return true;
     } catch (e) {
       developer.log("OTP check error", error: e);
+      showMessage(e.toString());
+      state = state.copyWithIsLoading(false);
       return false;
     }
   }

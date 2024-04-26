@@ -17,8 +17,8 @@ class AuthState extends Equatable {
         isLoading = false,
         userId = null;
 
-  AuthState copyWithIsLoading(IsLoading isLoading) =>
-      AuthState(authResult: authResult, isLoading: isLoading, userId: userId);
+  AuthState copyWithIsLoading(IsLoading loading) =>
+      AuthState(authResult: authResult, isLoading: loading, userId: userId);
 
   @override
   List<Object?> get props => [authResult, isLoading, userId];
