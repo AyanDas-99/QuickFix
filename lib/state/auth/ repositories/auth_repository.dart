@@ -14,8 +14,7 @@ part 'auth_repository.g.dart';
 class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
   @override
   AuthState build() {
-    if (_fAUth.currentUser != null &&
-        _fAUth.currentUser?.emailVerified == true) {
+    if (_fAUth.currentUser != null && _fAUth.currentUser?.phoneNumber != null) {
       return AuthState(
           authResult: AuthResult.success,
           isLoading: false,

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
+import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
 import 'package:quickfix/view/tabs/account/login_security_page.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends ConsumerWidget {
   const AccountPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       appBar: customAppBar(false, context: context),
       body: Padding(
@@ -18,6 +20,10 @@ class AccountPage extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Text(
+              user!.displayName!,
+            ),
+            const SizedBox(height: 20),
+            const Text(
               "Account Settings",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
