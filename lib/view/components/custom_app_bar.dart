@@ -8,13 +8,16 @@ PreferredSizeWidget customAppBar(
   required BuildContext context,
 }) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(home ? 110 : 38),
+    preferredSize: Size.fromHeight(home ? 120 : 48),
     child: AppBar(
       leading: !canGoBack
-          ? CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.black,
-              child: Image.asset("assets/logo/quickfix_logo.png"),
+          ? Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.black,
+                child: Image.asset("assets/logo/quickfix_logo.png"),
+              ),
             )
           : IconButton(
               onPressed: () {

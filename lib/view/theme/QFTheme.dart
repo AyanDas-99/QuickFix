@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class QFTheme {
   static ThemeData theme = ThemeData(
-    scaffoldBackgroundColor: mainGrey,
+    scaffoldBackgroundColor: Colors.blueGrey.shade50,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       titleTextStyle: TextStyle(

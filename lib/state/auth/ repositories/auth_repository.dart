@@ -155,7 +155,10 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
             state = state.copyWithIsLoading(false);
             codeSent(verificationId, token);
           },
-          codeAutoRetrievalTimeout: (s) {});
+          codeAutoRetrievalTimeout: (s) {
+            developer.log("Code retrieval timeout: $s");
+            state = state.copyWithIsLoading(false);
+          });
     } catch (e) {
       developer.log("Sign in with phone", error: e);
     }
