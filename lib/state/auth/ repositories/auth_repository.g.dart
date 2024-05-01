@@ -7,7 +7,7 @@ part of 'auth_repository.dart';
 // **************************************************************************
 
 String _$authRepositoryNotifierHash() =>
-    r'735f12145025b91bf7868073bf30228188ff260d';
+    r'f3c6ea7d575760f034b754bc54c02b2b5aeb716e';
 
 /// See also [AuthRepositoryNotifier].
 @ProviderFor(AuthRepositoryNotifier)
