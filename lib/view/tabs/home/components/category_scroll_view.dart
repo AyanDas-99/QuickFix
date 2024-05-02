@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quickfix/state/product/providers/category.dart';
+import 'package:quickfix/state/product/strings/categories.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
 
 class CategoryScrollView extends StatefulWidget {
@@ -9,16 +12,6 @@ class CategoryScrollView extends StatefulWidget {
 }
 
 class _CategoryScrollViewState extends State<CategoryScrollView> {
-  String selectedCategory = "All";
-
-  final categories = [
-    "All",
-    "Phones",
-    "Earphones",
-    "Watches",
-    "Accessories",
-  ];
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -28,14 +21,15 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
         padding: EdgeInsets.all(10),
         scrollDirection: Axis.horizontal,
         children: categories
-            .map((e) => InkWell(
-                onTap: () {
-                  setState(() {
-                    selectedCategory = e;
-                  });
-                },
-                child: CategoryItem(
-                    category: e, selectedCategory: selectedCategory)))
+            .map((e) => Consumer(builder: (context, ref, child) {
+                  return InkWell(
+                      onTap: () {
+                        ref.read(categoryProvider.notifier).state = e;
+                      },
+                      child: CategoryItem(
+                          category: e,
+                          selectedCategory: ref.watch(categoryProvider)));
+                }))
             .toList(),
       ),
     );

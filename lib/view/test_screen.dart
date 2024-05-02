@@ -31,12 +31,11 @@ class _TestScreenState extends ConsumerState<TestScreen> {
               final images = await PickImage.pickImages(3);
               print(images);
               final payload = ProductPayload(
-                  name: 'Iphone 14 Pro Max',
+                  categories: ['Audio'],
+                  name: 'Earphone Pro max',
                   images: images,
                   description: [
-                    Description(
-                        title: 'Display',
-                        description: 'Amoled + display with 5000 colors')
+                    Description(title: 'Sound', description: 'Very good sound')
                   ],
                   mrp: 150000,
                   price: 70000,
@@ -44,7 +43,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
               ref.read(addProductProvider.notifier).addNewProduct(
                   payload: payload,
                   onImageUploadLoading: (progress) {
-                    final prog = (progress / 300) * 100;
+                    final prog = (progress / images.length * 100) * 100;
                     print("Uploading....uploading....uploading");
                     setState(() {
                       totalprogress = prog;

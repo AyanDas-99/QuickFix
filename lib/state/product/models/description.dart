@@ -18,4 +18,9 @@ class Description {
   }
 
   String toJson() => json.encode(toMap());
+
+  @override
+  String toString() {
+    return '$title : $description';
+  }
 }

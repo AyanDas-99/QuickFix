@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,8 +27,9 @@ class AddProduct extends _$AddProduct {
     try {
       state = true;
       final images = await _uploadImages(payload.images, onImageUploadLoading);
-      payload.copyWithImages(images);
-
+      print(images);
+      payload = payload.copyWithImages(images);
+      print(payload);
       final productsCollection = FirebaseFirestore.instance
           .collection(FirebaseFieldNames.productsCollection);
       await productsCollection.add(payload);
@@ -39,23 +41,76 @@ class AddProduct extends _$AddProduct {
     }
   }
 
+  // Future<List<String>> _uploadImages(
+  //     List<String> imagePaths, Function(double) onImageUploadLoading) async {
+  //   List<String> links = [];
+  //   double totalProgress = 0;
+  //   Completer<List<String>> completer = Completer<List<String>>();
+
+  //   for (var path in imagePaths) {
+  //     final name = '${const Uuid().v4()}${p.extension(path)}';
+
+  //     final imageRef = FirebaseStorage.instance
+  //         .ref()
+  //         .child("${FirebaseFieldNames.productImages}/$name");
+
+  //     final file = File(path);
+  //     final snap = imageRef.putData(
+  //       file.readAsBytesSync(),
+  //       SettableMetadata(contentType: 'image'),
+  //     );
+
+  //     await snap.whenComplete(() {}); // Wait for upload task to complete
+
+  //     snap.snapshotEvents.listen(
+  //       (TaskSnapshot taskSnapshot) async {
+  //         switch (taskSnapshot.state) {
+  //           case TaskState.running:
+  //             final progress = 100.0 *
+  //                 (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+  //             dev.log("The progress is ${progress}");
+  //             totalProgress += progress;
+  //             onImageUploadLoading(totalProgress);
+  //             break;
+  //           case TaskState.success:
+  //             final url = await imageRef.getDownloadURL();
+  //             links.add(url); // Add URL to the list
+  //             break;
+  //           case TaskState.canceled || TaskState.error:
+  //             dev.log("Image upload cancelled or error for ${path}");
+  //             break;
+  //           case TaskState.paused:
+  //             dev.log("Image upload paused for ${path}");
+  //             break;
+  //         }
+  //       },
+  //     );
+  //   }
+
+  //   completer.complete(links); // Complete with the list of URLs
+  //   return completer.future;
+  // }
+
   Future<List<String>> _uploadImages(
       List<String> imagePaths, Function(double) onImageUploadLoading) async {
     List<String> links = [];
     double totalProgress = 0;
+
     for (var path in imagePaths) {
       final name = '${const Uuid().v4()}${p.extension(path)}';
-
       final imageRef = FirebaseStorage.instance
           .ref()
           .child("${FirebaseFieldNames.productImages}/$name");
 
       final file = File(path);
-      final snap = imageRef.putData(
+      final uploadTask = imageRef.putData(
         file.readAsBytesSync(),
         SettableMetadata(contentType: 'image'),
       );
-      snap.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+
+      // Await the completion of each upload task
+
+      uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
         switch (taskSnapshot.state) {
           case TaskState.running:
             final progress = 100.0 *
@@ -66,17 +121,29 @@ class AddProduct extends _$AddProduct {
             break;
           case TaskState.success:
             final url = await imageRef.getDownloadURL();
-            links.add(url);
+            links.add(url); // Add URL to the list
+            break;
           case TaskState.canceled || TaskState.error:
             dev.log("Image upload cancelled or error for ${path}");
-          //
+            break;
           case TaskState.paused:
             dev.log("Image upload paused for ${path}");
-          //
+            break;
         }
-        await snap.whenComplete(() {});
       });
+
+      // Get the download URL and add it to the links list
+      // Update progress
+      // totalProgress += 100.0 *
+      //     (uploadTask.snapshot.bytesTransferred /
+      //         uploadTask.snapshot.totalBytes);
+      // onImageUploadLoading(totalProgress);
+
+      await uploadTask;
+      final url = await imageRef.getDownloadURL();
+      links.add(url);
     }
+
     return links;
   }
 }

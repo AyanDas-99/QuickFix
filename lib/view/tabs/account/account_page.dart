@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
-import 'package:quickfix/state/product/models/description.dart';
-import 'package:quickfix/state/product/models/product_payload.dart';
-import 'package:quickfix/state/product/respositories/add_product.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
-import 'package:quickfix/state/utils/pick_image.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
 import 'package:quickfix/view/tabs/account/login_security_page.dart';
 import 'package:quickfix/view/test_screen.dart';

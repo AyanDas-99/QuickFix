@@ -8,6 +8,7 @@ class ProductPayload extends MapView<String, dynamic> {
   final String name;
   final List<String> images;
   final List<Description> description;
+  final List<String> categories;
   final int mrp;
   final int price;
   final int stock;
@@ -15,6 +16,7 @@ class ProductPayload extends MapView<String, dynamic> {
     required this.name,
     required this.images,
     required this.description,
+    required this.categories,
     required this.mrp,
     required this.price,
     required this.stock,
@@ -23,6 +25,7 @@ class ProductPayload extends MapView<String, dynamic> {
           ProductFieldNames.images: images,
           ProductFieldNames.description:
               description.map((e) => e.toMap()).toList(),
+          ProductFieldNames.categories: categories,
           ProductFieldNames.mrp: mrp,
           ProductFieldNames.price: price,
           ProductFieldNames.stock: stock,
@@ -32,6 +35,7 @@ class ProductPayload extends MapView<String, dynamic> {
         name: name,
         images: imageLinks,
         description: description,
+        categories: categories,
         mrp: mrp,
         price: price,
         stock: stock,
