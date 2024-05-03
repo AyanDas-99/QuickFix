@@ -2,26 +2,12 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quickfix/state/product/models/product.dart';
-import 'package:quickfix/state/product/providers/all_products.dart';
 import 'package:quickfix/state/product/providers/category.dart';
 import 'package:quickfix/state/product/strings/product_field_names.dart';
 import 'package:quickfix/state/strings/firebase_field_names.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'all_products_by_category.g.dart';
-
-// @riverpod
-// FutureOr<Iterable<Product>> allProductsByCategory(
-//     AllProductsByCategoryRef ref, String category) async {
-//   final productsSnapshot = await FirebaseFirestore.instance
-//       .collection(FirebaseFieldNames.productsCollection)
-//       .where(ProductFieldNames.categories, arrayContains: category)
-//       .get();
-
-//   final products =
-//       productsSnapshot.docs.map((e) => Product.fromMap(e.data(), e.id));
-//   return products;
-// }
 
 @Riverpod(keepAlive: true)
 Stream<Iterable<Product>> allProductsByCategory(AllProductsByCategoryRef ref) {

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quickfix/state/cart/model/cart_payload.dart';
+import 'package:quickfix/state/cart/repository/cart_repository.dart';
 import 'package:quickfix/state/product/models/product.dart';
 import 'package:quickfix/state/user/repositories/update_user.dart';
 import 'package:quickfix/view/components/main_button.dart';
@@ -22,9 +24,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
   CarouselController controller = CarouselController();
 
   void addToCart() async {
-    final done = await ref
-        .read(updateUserRepositoryProvider.notifier)
-        .addToCart(widget.product.id);
+    final cartPayload = CartPayload(
+        name: widget.product.name,
+        price: widget.product.price,
+        productId: widget.product.id);
+    final done =
+        await ref.read(cartRepositoryProvider.notifier).addToCart(cartPayload);
     if (done) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Added to cart')));

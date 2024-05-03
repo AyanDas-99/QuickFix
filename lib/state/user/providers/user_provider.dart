@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 User? user(UserRef ref) {
   final authUser = FirebaseAuth.instance.currentUser;
   return authUser;

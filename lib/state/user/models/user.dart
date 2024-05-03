@@ -7,14 +7,12 @@ class User extends Equatable {
   final String? phoneNumber;
   final String? photoUrl;
   final String uid;
-  final List<String> cart;
 
   const User({
     this.displayName,
     this.phoneNumber,
     this.photoUrl,
     required this.uid,
-    required this.cart,
   });
 
   @override
@@ -32,7 +30,6 @@ class User extends Equatable {
           ? map[UserFieldNames.photoUrl] as String
           : null,
       uid: map[UserFieldNames.uid] as String,
-      cart: List<String>.from(map[UserFieldNames.cart] ?? []),
     );
   }
 }

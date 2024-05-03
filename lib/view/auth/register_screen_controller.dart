@@ -1,5 +1,4 @@
 import 'package:quickfix/view/auth/login_with_phone.dart';
-import 'package:quickfix/view/auth/otp_screen.dart';
 import 'package:quickfix/view/auth/signup_with_phone.dart';
 import 'package:flutter/material.dart';
 

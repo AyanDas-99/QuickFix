@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:quickfix/state/product/models/description.dart';
 import 'package:quickfix/state/product/strings/product_field_names.dart';
 
-class Product {
+class Product extends Equatable {
   final String name;
   final String description;
   final List<String> images;
@@ -62,4 +63,8 @@ class Product {
 
   factory Product.fromJson(String source, String id) =>
       Product.fromMap(json.decode(source) as Map<String, dynamic>, id);
+
+  @override
+  List<Object?> get props =>
+      [name, description, mrp, id, price, stock, description];
 }
