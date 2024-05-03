@@ -25,10 +25,13 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => PaymentSuccessPage(),
+      MaterialPageRoute(
+        builder: (context) => PaymentSuccessPage(
+          paymentSuccessResponse: response,
         ),
-        (route) => false);
+      ),
+      ModalRoute.withName('/'),
+    );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

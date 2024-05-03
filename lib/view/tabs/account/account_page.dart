@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
+import 'package:quickfix/view/payments/payment_screen.dart';
 import 'package:quickfix/view/tabs/account/login_security_page.dart';
 import 'package:quickfix/view/test_screen.dart';
 
@@ -64,6 +65,16 @@ class AccountPage extends ConsumerWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => TestScreen(),
+                ));
+              },
+            ),
+            ListTile(
+              title: Text('Payment test'),
+              tileColor: Colors.white30,
+              trailing: Icon(Icons.navigate_next),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PaymentScreen(),
                 ));
               },
             ),

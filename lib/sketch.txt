@@ -1,0 +1,18 @@
+Order{
+    id,
+    productId,
+    userId,
+    Timestamp,
+    status: ,
+    amount,
+    paymentMethod,
+    shippingAddress,
+    items: [
+        {
+            name: item1,
+            quantity: 1,
+            price:
+            subtotal: 50,
+        }
+    ]
+}
