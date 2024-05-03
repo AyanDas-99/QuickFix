@@ -34,8 +34,9 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                   categories: ['Audio'],
                   name: 'Earphone Pro max',
                   images: images,
-                  description: [
-                    Description(title: 'Sound', description: 'Very good sound')
+                  description: 'The best earphones ever',
+                  detail: [
+                    Detail(title: 'Sound', description: 'Very good sound')
                   ],
                   mrp: 150000,
                   price: 70000,
@@ -43,7 +44,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
               ref.read(addProductProvider.notifier).addNewProduct(
                   payload: payload,
                   onImageUploadLoading: (progress) {
-                    final prog = (progress / images.length * 100) * 100;
+                    final prog = (progress / (images.length * 100)) * 100;
                     print("Uploading....uploading....uploading");
                     setState(() {
                       totalprogress = prog;

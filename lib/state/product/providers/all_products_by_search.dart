@@ -15,8 +15,11 @@ FutureOr<Iterable<Product>> allProductsBySearch(
   final products = productsSnapshot.docs
       .map((e) => Product.fromMap(e.data(), e.id))
       .where((product) =>
-          product.name.contains(query) ||
-          product.description.toString().contains(query) ||
+          product.name.toUpperCase().contains(query.toUpperCase()) ||
+          product.description
+              .toString()
+              .toUpperCase()
+              .contains(query.toUpperCase()) ||
           product.categories.contains(query));
   return products;
 }

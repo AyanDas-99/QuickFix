@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:quickfix/view/tabs/home/components/home_search_bar.dart';
 
 PreferredSizeWidget customAppBar(

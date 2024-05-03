@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Description {
+class Detail {
   final String? title;
   final String? description;
 
-  Description({
+  Detail({
     this.title,
     this.description,
   });

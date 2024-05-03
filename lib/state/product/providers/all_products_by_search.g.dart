@@ -7,7 +7,7 @@ part of 'all_products_by_search.dart';
 // **************************************************************************
 
 String _$allProductsBySearchHash() =>
-    r'3428f2c22a5ebb59ded7fe99ce7d34e1fe1b5557';
+    r'88dad0ace66509e634906b56dfd8a61decce877f';
 
 /// Copied from Dart SDK
 class _SystemHash {

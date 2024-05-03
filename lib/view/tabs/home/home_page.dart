@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:quickfix/state/product/providers/all_products.dart';
 import 'package:quickfix/state/product/providers/all_products_by_category.dart';
 import 'package:quickfix/view/product/screens/product_screen.dart';
 import 'package:quickfix/view/tabs/home/components/category_scroll_view.dart';
@@ -36,7 +35,9 @@ class HomePage extends ConsumerWidget {
                             InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ProductScreen(),
+                              builder: (context) => ProductScreen(
+                                product: products.elementAt(index),
+                              ),
                             ));
                           },
                           child: ProductCard(

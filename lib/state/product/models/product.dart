@@ -6,8 +6,9 @@ import 'package:quickfix/state/product/strings/product_field_names.dart';
 
 class Product {
   final String name;
+  final String description;
   final List<String> images;
-  final List<Description> description;
+  final List<Detail> detail;
   final List<String> categories;
   final int mrp;
   final int price;
@@ -16,8 +17,9 @@ class Product {
 
   Product({
     required this.name,
-    required this.images,
     required this.description,
+    required this.detail,
+    required this.images,
     required this.categories,
     required this.mrp,
     required this.price,
@@ -30,6 +32,7 @@ class Product {
       ProductFieldNames.name: name,
       ProductFieldNames.images: images,
       ProductFieldNames.description: description,
+      ProductFieldNames.detail: detail,
       ProductFieldNames.categories: categories,
       ProductFieldNames.mrp: mrp,
       ProductFieldNames.price: price,
@@ -40,19 +43,19 @@ class Product {
 
   factory Product.fromMap(Map<String, dynamic> map, String id) {
     return Product(
-      name: map[ProductFieldNames.name] as String,
-      images: List<String>.from(map[ProductFieldNames.images]),
-      description: (map[ProductFieldNames.description] as List)
-          .map((map) => Description(
-              title: map[ProductFieldNames.title],
-              description: map[ProductFieldNames.description]))
-          .toList(),
-      categories: List<String>.from(map[ProductFieldNames.categories] ?? []),
-      mrp: map[ProductFieldNames.mrp] as int,
-      price: map[ProductFieldNames.price] as int,
-      stock: map[ProductFieldNames.stock] as int,
-      id: id,
-    );
+        name: map[ProductFieldNames.name] as String,
+        images: List<String>.from(map[ProductFieldNames.images]),
+        detail: (map[ProductFieldNames.detail] as List)
+            .map((map) => Detail(
+                title: map[ProductFieldNames.title],
+                description: map[ProductFieldNames.description]))
+            .toList(),
+        categories: List<String>.from(map[ProductFieldNames.categories] ?? []),
+        mrp: map[ProductFieldNames.mrp] as int,
+        price: map[ProductFieldNames.price] as int,
+        stock: map[ProductFieldNames.stock] as int,
+        id: id,
+        description: map[ProductFieldNames.description]);
   }
 
   String toJson() => json.encode(toMap());

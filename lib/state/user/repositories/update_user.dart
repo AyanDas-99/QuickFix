@@ -77,4 +77,26 @@ class UpdateUserRepository extends _$UpdateUserRepository {
     }
     return true;
   }
+
+  Future<bool> addToCart(String productId) async {
+    state = true;
+    final user = ref.read(userProvider);
+    try {
+      final userRef = await FirebaseFirestore.instance
+          .collection("users")
+          .where(UserFieldNames.uid, isEqualTo: user!.uid)
+          .get();
+      await userRef.docs.first.reference.update({
+        UserFieldNames.cart: FieldValue.arrayUnion([productId]),
+      });
+
+      await ref.watch(userProvider)!.reload();
+      state = false;
+      return true;
+    } catch (e) {
+      dev.log("Profile name update", error: e);
+      state = false;
+      return false;
+    }
+  }
 }

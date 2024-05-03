@@ -15,5 +15,6 @@ class UserPayload extends MapView<String, dynamic> {
           UserFieldNames.phoneNumber: phoneNumber,
           UserFieldNames.photoUrl: photoUrl,
           UserFieldNames.uid: uid,
+          UserFieldNames.cart: [],
         });
 }

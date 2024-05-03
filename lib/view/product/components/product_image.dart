@@ -33,40 +33,49 @@ class _ProductImageState extends State<ProductImage> {
               viewportFraction: 1,
               enableInfiniteScroll: false,
             ),
-            items: List.generate(widget.images.length, (index) {
-              String image = widget.images[index];
-              return SizedBox(
-                height: constraints.maxWidth,
-                width: constraints.maxWidth,
-                child: Center(
-                  child: Image.network(
-                    image,
-                    height: constraints.maxWidth,
-                    fit: BoxFit.fitHeight,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey,
-                        highlightColor: Colors.blueGrey,
-                        child: Center(
-                          child: Icon(
-                            Icons.image,
-                            size: constraints.maxWidth * 0.7,
-                          ),
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Center(
-                        child: Icon(Icons.image),
-                      );
-                    },
-                  )
-                      .animate(target: (currentPage == index) ? 0 : 1)
-                      .scale(end: const Offset(0.7, 0.7)),
-                ),
-              );
-            }).toList(),
+            items: (widget.images.isEmpty)
+                ? [
+                    const Center(
+                      child: Icon(
+                        Icons.image,
+                        size: 70,
+                      ),
+                    )
+                  ]
+                : List.generate(widget.images.length, (index) {
+                    String image = widget.images[index];
+                    return SizedBox(
+                      height: constraints.maxWidth,
+                      width: constraints.maxWidth,
+                      child: Center(
+                        child: Image.network(
+                          image,
+                          height: constraints.maxWidth,
+                          fit: BoxFit.fitHeight,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Shimmer.fromColors(
+                              baseColor: Colors.grey,
+                              highlightColor: Colors.blueGrey,
+                              child: Center(
+                                child: Icon(
+                                  Icons.image,
+                                  size: constraints.maxWidth * 0.7,
+                                ),
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                              child: Icon(Icons.image),
+                            );
+                          },
+                        )
+                            .animate(target: (currentPage == index) ? 0 : 1)
+                            .scale(end: const Offset(0.7, 0.7)),
+                      ),
+                    );
+                  }).toList(),
           ),
           const SizedBox(height: 10),
           Row(

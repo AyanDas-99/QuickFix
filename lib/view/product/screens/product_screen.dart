@@ -3,29 +3,40 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quickfix/state/product/models/product.dart';
+import 'package:quickfix/state/user/repositories/update_user.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/product/components/details.dart';
 import 'package:quickfix/view/product/components/product_image.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
 
 class ProductScreen extends ConsumerStatefulWidget {
-  const ProductScreen({super.key});
+  final Product product;
+  const ProductScreen({super.key, required this.product});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ProductScreenState();
 }
 
 class _ProductScreenState extends ConsumerState<ProductScreen> {
-  var products = [
-    'https://picsum.photos/300',
-    'https://picsum.photos/400',
-    'https://picsum.photos/200',
-  ];
-
   CarouselController controller = CarouselController();
+
+  void addToCart() async {
+    final done = await ref
+        .read(updateUserRepositoryProvider.notifier)
+        .addToCart(widget.product.id);
+    if (done) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Added to cart')));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to add product to cart')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final cartLoading = ref.watch(updateUserRepositoryProvider);
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -48,29 +59,29 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ProductImage(images: [
-                'https://picsum.photos/1200',
-                'https://picsum.photos/1000',
-                'https://picsum.photos/1500',
-              ]),
+              ProductImage(images: widget.product.images),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Iphone 15 Pro Max(8 GB 128 GB) - Blue Titanium",
+                      widget.product.name,
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
+                    const SizedBox(height: 10),
+                    Text(widget.product.description),
                     const SizedBox(height: 20),
-                    Text("In Stock"),
+                    Text(widget.product.stock == 0
+                        ? "Not In stock"
+                        : "${widget.product.stock} in Stock"),
                     const SizedBox(height: 20),
                     Text(
-                      '\u{20B9} 70,000/',
+                      '\u{20B9} ${widget.product.price}',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     Text(
-                      '\u{20B9} 1,40,000/',
+                      '\u{20B9} ${widget.product.mrp}',
                       style: TextStyle(decoration: TextDecoration.lineThrough),
                     ),
                     const SizedBox(height: 20),
@@ -91,20 +102,22 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                         const SizedBox(width: 20),
                         Flexible(
                           child: MainButton(
-                            onPressed: () {
-                              // Add to cart
-                            },
-                            child: Text(
-                              'Add to cart',
-                              style: TextStyle(color: Colors.black),
-                            ),
+                            onPressed: addToCart,
+                            child: cartLoading
+                                ? const CircularProgressIndicator()
+                                : Text(
+                                    'Add to cart',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
                             backgroundColor: QFTheme.mainGrey,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Details(),
+                    Details(
+                      details: widget.product.detail,
+                    ),
                   ],
                 ),
               )
