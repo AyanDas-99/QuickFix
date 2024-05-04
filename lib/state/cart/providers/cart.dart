@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:quickfix/state/cart/model/cart.dart';
+import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/strings/firebase_field_names.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

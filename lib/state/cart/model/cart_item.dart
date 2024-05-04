@@ -20,6 +20,15 @@ class CartItem {
     return price * quantity;
   }
 
+  toMap() {
+    return {
+      CartFieldNames.name: name,
+      CartFieldNames.price: price,
+      CartFieldNames.productId: productId,
+      CartFieldNames.quantity: quantity,
+    };
+  }
+
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
       name: map[CartFieldNames.name] as String,

@@ -36,17 +36,11 @@ class _MyAppState extends ConsumerState<MyApp> {
     final authState = ref.watch(authRepositoryNotifierProvider);
     // final isLoading = ref.watch(isLoadingProvider);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: QFTheme.theme,
-      home: Stack(
-        children: [
-          if (authState.authResult == AuthResult.success)
-            const TabControllerScreen(),
-          if (authState.authResult != AuthResult.success)
-            const RegisterScreenController(),
-        ],
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: QFTheme.theme,
+        home: (authState.authResult == AuthResult.success)
+            ? const TabControllerScreen()
+            : const RegisterScreenController());
   }
 }

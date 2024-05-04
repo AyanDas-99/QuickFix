@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quickfix/state/models/shipping_address.dart';
+import 'package:quickfix/state/strings/firebase_field_names.dart';
 import 'package:quickfix/state/user/strings/user_field_names.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -34,6 +36,25 @@ class UpdateUserRepository extends _$UpdateUserRepository {
       return true;
     } catch (e) {
       dev.log("Profile name update", error: e);
+      state = false;
+      return false;
+    }
+  }
+
+  Future<bool> updateAddress(ShippingAddress shippingAddress) async {
+    state = true;
+    final user = ref.read(userProvider);
+    try {
+      final userRef = await FirebaseFirestore.instance
+          .collection(FirebaseFieldNames.usersCollection)
+          .where(UserFieldNames.uid, isEqualTo: user!.uid)
+          .get();
+      await userRef.docs.first.reference
+          .update({UserFieldNames.shippingAddress: shippingAddress.toMap()});
+      state = false;
+      return true;
+    } catch (e) {
+      dev.log('Shipping address update error', error: e);
       state = false;
       return false;
     }
