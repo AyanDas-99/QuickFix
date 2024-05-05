@@ -1,18 +1,5 @@
-Order{
-    id,
-    productId,
-    userId,
-    Timestamp,
-    status: ,
-    amount,
-    paymentMethod,
-    shippingAddress,
-    items: [
-        {
-            name: item1,
-            quantity: 1,
-            price:
-            subtotal: 50,
-        }
-    ]
-}
+confirm screen 
+    -> Payments(pay or cod)
+        -> if(pay) payments -> buy method()
+        -> else -> isCOD true
+            -> (addOrder()) -> success screen()

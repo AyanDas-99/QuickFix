@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/cart/model/cart_payload.dart';
 import 'package:quickfix/state/cart/repository/cart_repository.dart';
 import 'package:quickfix/state/product/models/product.dart';
 import 'package:quickfix/state/user/repositories/update_user.dart';
 import 'package:quickfix/view/components/main_button.dart';
+import 'package:quickfix/view/order/screens/confirmation_screen.dart';
 import 'package:quickfix/view/product/components/details.dart';
 import 'package:quickfix/view/product/components/product_image.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
@@ -22,6 +22,18 @@ class ProductScreen extends ConsumerStatefulWidget {
 
 class _ProductScreenState extends ConsumerState<ProductScreen> {
   CarouselController controller = CarouselController();
+
+  void buy() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => ConfirmationScreen(cart: [
+        CartItem(
+            name: widget.product.name,
+            price: widget.product.price,
+            productId: widget.product.id,
+            quantity: 1)
+      ]),
+    ));
+  }
 
   void addToCart() async {
     final cartPayload = CartPayload(
@@ -94,9 +106,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                       children: [
                         Flexible(
                           child: MainButton(
-                            onPressed: () {
-                              // buy
-                            },
+                            onPressed: buy,
                             child: Text(
                               'Buy Now',
                               style: TextStyle(color: Colors.white),

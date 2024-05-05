@@ -24,10 +24,13 @@ class _TestScreenState extends ConsumerState<TestScreen> {
       return;
     }
     final address = ShippingAddress(
-        street: streetController.text,
-        city: cityController.text,
-        state: stateController.text,
-        pincode: pincodeController.text);
+      street: streetController.text,
+      city: cityController.text,
+      state: stateController.text,
+      pincode: pincodeController.text,
+      houseNo: houseNoController.text,
+      landmark: landmarkController.text,
+    );
 
     final isUpdated = await ref
         .read(updateUserRepositoryProvider.notifier)
@@ -46,6 +49,8 @@ class _TestScreenState extends ConsumerState<TestScreen> {
   final cityController = TextEditingController();
   final stateController = TextEditingController();
   final pincodeController = TextEditingController();
+  final houseNoController = TextEditingController();
+  final landmarkController = TextEditingController();
 
   double totalprogress = 0;
   @override
@@ -69,15 +74,15 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                 print(images);
                 if (images.isEmpty) return;
                 final payload = ProductPayload(
-                    categories: ['Audio'],
-                    name: 'Earphone Pro max',
+                    categories: ['Phone'],
+                    name: '(Refurbished) Redmi note 11 pro max',
                     images: images,
                     description: 'The best earphones ever',
                     detail: [
                       Detail(title: 'Sound', description: 'Very good sound')
                     ],
-                    mrp: 150000,
-                    price: 70000,
+                    mrp: 25000,
+                    price: 15000,
                     stock: 1);
                 ref.read(addProductProvider.notifier).addNewProduct(
                     payload: payload,
@@ -118,6 +123,28 @@ class _TestScreenState extends ConsumerState<TestScreen> {
               key: formkey,
               child: Column(
                 children: [
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'House number cannot be empty';
+                      }
+                      return null;
+                    },
+                    controller: streetController,
+                    decoration: InputDecoration(
+                        hintText: 'House no. | Flat no. | Building name'),
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Landmark cannot be empty';
+                      }
+                      return null;
+                    },
+                    controller: cityController,
+                    decoration: InputDecoration(
+                        hintText: 'Landmark. Eg - Near shiv Mandir'),
+                  ),
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {

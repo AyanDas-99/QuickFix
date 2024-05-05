@@ -8,12 +8,16 @@ class ShippingAddress {
   final String city;
   final String state;
   final String pincode;
+  final String houseNo;
+  final String landmark;
 
   ShippingAddress({
     required this.street,
     required this.city,
     required this.state,
     required this.pincode,
+    required this.houseNo,
+    required this.landmark,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +26,8 @@ class ShippingAddress {
       AddressFieldNames.city: city,
       AddressFieldNames.state: state,
       AddressFieldNames.pincode: pincode,
+      AddressFieldNames.houseNo: houseNo,
+      AddressFieldNames.landmark: landmark,
     };
   }
 
@@ -31,6 +37,8 @@ class ShippingAddress {
       city: map[AddressFieldNames.city] as String,
       state: map[AddressFieldNames.state] as String,
       pincode: map[AddressFieldNames.pincode] as String,
+      houseNo: map[AddressFieldNames.houseNo] as String,
+      landmark: map[AddressFieldNames.landmark] as String,
     );
   }
 
@@ -38,4 +46,9 @@ class ShippingAddress {
 
   factory ShippingAddress.fromJson(String source) =>
       ShippingAddress.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return '$houseNo, $landmark, $street, $city, $state, $pincode';
+  }
 }

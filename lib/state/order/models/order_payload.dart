@@ -9,8 +9,6 @@ import 'package:quickfix/state/order/strings/order_field_names.dart';
 class OrderPayload extends MapView<String, dynamic> {
   OrderPayload({
     required String userId,
-    required DateTime timestamp,
-    required OrderStatus orderStatus,
     required int price,
     required bool isCashOnDelivery,
     required ShippingAddress shippingAddress,
