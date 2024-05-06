@@ -48,7 +48,8 @@ class ProductCard extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            height: 80,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            // height: 80,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [Colors.black, Colors.transparent],
@@ -63,17 +64,11 @@ class ProductCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
                     product.name,
+                    softWrap: true,
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    product.name,
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

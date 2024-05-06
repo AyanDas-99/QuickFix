@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quickfix/state/cart/model/cart_payload.dart';
 import 'package:quickfix/state/cart/providers/cart.dart';
-import 'package:quickfix/state/cart/repository/cart_repository.dart';
+import 'package:quickfix/view/components/custom_app_bar.dart';
+import 'package:quickfix/view/components/main_button.dart';
+import 'package:quickfix/view/order/screens/confirmation_screen.dart';
+import 'package:quickfix/view/tabs/cart/components/cart_item_card.dart';
+import 'package:quickfix/view/tabs/cart/components/empty_sign.dart';
+import 'package:quickfix/view/theme/QFTheme.dart';
 
 class CartPage extends ConsumerWidget {
   const CartPage({super.key});
@@ -11,59 +15,36 @@ class CartPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cart = ref.watch(cartProvider);
     return Scaffold(
-      body: cart.when(
-        data: (cart) {
-          if (cart.isEmpty) {
-            return Text('Cart is empty');
-          }
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(cart[index].name),
-                      Text(cart[index].subtotal.toString()),
-                    ],
-                  ),
-                  Text(cart[index].quantity.toString()),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            ref.read(cartRepositoryProvider.notifier).addToCart(
-                                CartPayload(
-                                    name: cart[index].name,
-                                    price: cart[index].price,
-                                    productId: cart[index].productId));
-                          },
-                          icon: Icon(Icons.add)),
-                      IconButton(
-                          onPressed: () {
-                            ref
-                                .read(cartRepositoryProvider.notifier)
-                                .decrement(cart[index].productId);
-                          },
-                          icon: Icon(Icons.remove)),
-                      IconButton(
-                          onPressed: () {
-                            ref
-                                .read(cartRepositoryProvider.notifier)
-                                .deleteItem(cart[index].productId);
-                          },
-                          icon: Icon(Icons.delete)),
-                    ],
-                  ),
-                ],
+      appBar: customAppBar(true, context: context),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: cart.when(
+          data: (cart) {
+            if (cart.isEmpty) {
+              return const Center(
+                child: EmptySign(),
               );
-            },
-            itemCount: cart.length,
-          );
-        },
-        error: (e, st) => Text(e.toString()),
-        loading: () => const CircularProgressIndicator(),
+            }
+            return ListView(
+              children: [
+                MainButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ConfirmationScreen(cart: cart),
+                      ));
+                    },
+                    backgroundColor: QFTheme.mainGreen,
+                    child: const Text(
+                      'Proceed to buy',
+                      style: TextStyle(color: Colors.white),
+                    )),
+                ...cart.map((e) => CartItemCard(cartItem: e))
+              ],
+            );
+          },
+          error: (e, st) => Text(e.toString()),
+          loading: () => const CircularProgressIndicator(),
+        ),
       ),
     );
   }
