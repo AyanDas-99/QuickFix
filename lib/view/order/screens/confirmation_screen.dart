@@ -47,8 +47,8 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     // Do something when payment succeeds
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (context) => PaymentSuccessPage(
-          paymentSuccessResponse: response,
+        builder: (context) => OrderSuccessPage(
+          cart: widget.cart,
         ),
       ),
       ModalRoute.withName('/'),
@@ -86,7 +86,9 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     if (ordered) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => const OrderSuccessPage(),
+            builder: (context) => OrderSuccessPage(
+              cart: widget.cart,
+            ),
           ),
           ModalRoute.withName('/'));
     }

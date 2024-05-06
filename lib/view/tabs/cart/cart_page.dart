@@ -36,8 +36,9 @@ class CartPage extends ConsumerWidget {
                     backgroundColor: QFTheme.mainGreen,
                     child: const Text(
                       'Proceed to buy',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     )),
+                const SizedBox(height: 10),
                 ...cart.map((e) => CartItemCard(cartItem: e))
               ],
             );
