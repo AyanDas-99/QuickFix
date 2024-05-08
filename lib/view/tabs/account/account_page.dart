@@ -76,13 +76,16 @@ class AccountPage extends ConsumerWidget {
               trailing: Icon(Icons.navigate_next),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => OrderSuccessPage(cart: [
-                    CartItem(
-                        name: 'Iphone pro max 15',
-                        price: 120000,
-                        productId: 'pfUWPgX8OwXbWtDvMDCe',
-                        quantity: 2)
-                  ]),
+                  builder: (context) => OrderSuccessPage(
+                    cart: [
+                      CartItem(
+                          name: 'Iphone pro max 15',
+                          price: 120000,
+                          productId: 'pfUWPgX8OwXbWtDvMDCe',
+                          quantity: 2)
+                    ],
+                    paymentSuccessResponse: null,
+                  ),
                 ));
               },
             ),

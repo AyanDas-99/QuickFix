@@ -13,6 +13,7 @@ class OrderPayload extends MapView<String, dynamic> {
     required bool isCashOnDelivery,
     required ShippingAddress shippingAddress,
     required List<CartItem> items,
+    required String? orderId,
   }) : super({
           OrderFieldNames.userId: userId,
           OrderFieldNames.timestamp: FieldValue.serverTimestamp(),
@@ -21,5 +22,6 @@ class OrderPayload extends MapView<String, dynamic> {
           OrderFieldNames.isCashOnDelivery: isCashOnDelivery,
           OrderFieldNames.shippingAddress: shippingAddress.toMap(),
           OrderFieldNames.items: items.map((e) => e.toMap()).toList(),
+          OrderFieldNames.orderId: orderId,
         });
 }

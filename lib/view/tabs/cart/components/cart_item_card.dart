@@ -5,6 +5,7 @@ import 'package:quickfix/state/cart/model/cart_payload.dart';
 import 'package:quickfix/state/cart/repository/cart_repository.dart';
 import 'package:quickfix/state/product/providers/product_by_id.dart';
 import 'package:quickfix/view/components/main_button.dart';
+import 'package:quickfix/view/tabs/cart/components/cart_item_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CartItemCard extends ConsumerWidget {
@@ -143,14 +144,6 @@ class CartItemCard extends ConsumerWidget {
           );
         },
         error: (e, st) => Text(e.toString()),
-        loading: () => Shimmer.fromColors(
-            baseColor: Colors.blueGrey.shade100,
-            highlightColor: Colors.white,
-            child: Container(
-              color: Colors.grey,
-              height: 150,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: const Text('hello'),
-            )));
+        loading: () => const CartItemShimmer());
   }
 }

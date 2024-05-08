@@ -31,11 +31,8 @@ class ProductCard extends StatelessWidget {
                 return Shimmer.fromColors(
                   baseColor: Colors.grey,
                   highlightColor: Colors.blueGrey,
-                  child: Center(
-                    child: Icon(
-                      Icons.image,
-                      size: 10,
-                    ),
+                  child: Container(
+                    color: Colors.grey,
                   ),
                 );
               },

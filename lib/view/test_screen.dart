@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quickfix/state/admin/order/repository/order_repository.dart';
 import 'package:quickfix/state/models/shipping_address.dart';
+import 'package:quickfix/state/order/models/order_status.dart';
 import 'package:quickfix/state/product/models/description.dart';
 import 'package:quickfix/state/product/models/product_payload.dart';
 import 'package:quickfix/state/product/respositories/add_product.dart';
@@ -51,6 +53,8 @@ class _TestScreenState extends ConsumerState<TestScreen> {
   final pincodeController = TextEditingController();
   final houseNoController = TextEditingController();
   final landmarkController = TextEditingController();
+  // controller for order status update
+  final orderIdController = TextEditingController();
 
   double totalprogress = 0;
   @override
@@ -58,6 +62,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
     final loading = ref.watch(addProductProvider);
 
     final userUpdateLoading = ref.watch(updateUserRepositoryProvider);
+    final orderUpdateLoading = ref.watch(orderRepositoryProvider);
 
     return Scaffold(
       appBar: AppBar(),
@@ -75,14 +80,17 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                 if (images.isEmpty) return;
                 final payload = ProductPayload(
                     categories: ['Phone'],
-                    name: '(Refurbished) Redmi note 11 pro max',
+                    name: '(Refurbished) Iphone Charger | 120W',
                     images: images,
-                    description: 'The best earphones ever',
+                    description:
+                        'Original Iphone charger refurbished, In good condition and charges Iphone 12 to 100%  in 30 mins.',
                     detail: [
-                      Detail(title: 'Sound', description: 'Very good sound')
+                      Detail(title: 'Power', description: '120 W'),
+                      Detail(title: 'Color', description: 'White'),
+                      Detail(title: 'Cord', description: '1 Mtr, anti-tangle'),
                     ],
-                    mrp: 25000,
-                    price: 15000,
+                    mrp: 5000,
+                    price: 2000,
                     stock: 1);
                 ref.read(addProductProvider.notifier).addNewProduct(
                     payload: payload,
@@ -192,6 +200,43 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                           : Text('Update address')),
                 ],
               ),
+            ),
+            const SizedBox(height: 50),
+            // Update orderstatus
+            Stack(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: orderIdController,
+                      ),
+                    ),
+                    DropdownButton(
+                      items: OrderStatus.values
+                          .map((e) => DropdownMenuItem(
+                                child: Text(e.name),
+                                value: e,
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        ref
+                            .read(orderRepositoryProvider.notifier)
+                            .updateOrderStatus(
+                                orderId: orderIdController.text,
+                                orderStatus: value!);
+                      },
+                    ),
+                  ],
+                ),
+                if (orderUpdateLoading)
+                  Container(
+                    height: 100,
+                    width: double.infinity,
+                    color: Colors.grey.withOpacity(0.5),
+                    child: const CircularProgressIndicator(),
+                  )
+              ],
             )
           ],
         ),

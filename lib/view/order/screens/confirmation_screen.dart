@@ -7,7 +7,6 @@ import 'package:quickfix/state/user/providers/user_by_id.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/order/screens/order_success_page.dart';
-import 'package:quickfix/view/payments/payment_success_page.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'dart:developer' as dev;
 
@@ -35,6 +34,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     final user = await ref.read(UserByIdProvider(uid).future);
     final added = await ref.read(orderRepositoryProvider.notifier).addOrder(
         OrderPayload(
+            orderId: response.orderId,
             userId: uid,
             price: widget.cart.fold<int>(
                 0, (previousValue, item) => previousValue + item.subtotal),
@@ -49,6 +49,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
       MaterialPageRoute(
         builder: (context) => OrderSuccessPage(
           cart: widget.cart,
+          paymentSuccessResponse: response,
         ),
       ),
       ModalRoute.withName('/'),
@@ -88,6 +89,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
           MaterialPageRoute(
             builder: (context) => OrderSuccessPage(
               cart: widget.cart,
+              paymentSuccessResponse: null,
             ),
           ),
           ModalRoute.withName('/'));

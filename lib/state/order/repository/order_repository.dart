@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/order/models/order_payload.dart';
@@ -8,6 +11,8 @@ import 'package:quickfix/state/user/providers/user_by_id.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:developer' as dev;
 
 part 'order_repository.g.dart';
 
@@ -33,11 +38,13 @@ class OrderRepository extends _$OrderRepository {
       final totalPrice = cart.fold<int>(
           0, (previousValue, item) => previousValue + item.subtotal);
 
+      final orderId = await _createRazorpayOrder(totalPrice);
+
       var options = {
-        'key': 'rzp_test_1CpRd8yOOLoy3A',
+        'key': dotenv.env['RAZORPAY_API_ID'],
         'amount': totalPrice * 100, //in the smallest currency sub-unit.
         'name': '',
-        // 'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
+        'order_id': orderId, // Generate order_id using Orders API
         'description': '',
         'timeout': 120, // in seconds
         'prefill': {'contact': user.phoneNumber},
@@ -63,6 +70,7 @@ class OrderRepository extends _$OrderRepository {
           0, (previousValue, item) => previousValue + item.subtotal);
       final OrderPayload payload = OrderPayload(
           userId: uid,
+          orderId: null,
           price: totalPrice,
           isCashOnDelivery: true,
           shippingAddress: user.shippingAddress!,
@@ -74,6 +82,34 @@ class OrderRepository extends _$OrderRepository {
       state = false;
       return false;
     }
+  }
+
+  Future<String?> _createRazorpayOrder(int amount) async {
+    String username = dotenv.env['RAZORPAY_API_ID']!; // razorpay pay key
+    String password = dotenv.env['RAZORPAY_KEY_SECRET']!; // razoepay secret key
+    String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$username:$password'))}';
+
+    Map<String, dynamic> body = {
+      "amount": amount * 100,
+      "currency": "INR",
+      "receipt": "rcptid_11"
+    };
+    var res = await http.post(
+      Uri.https("api.razorpay.com",
+          "v1/orders"), //https://api.razorpay.com/v1/orders // Api provided by Razorpay Official 💙
+      headers: <String, String>{
+        "Content-Type": "application/json",
+        'authorization': basicAuth,
+      },
+      body: jsonEncode(body),
+    );
+
+    print(res.body);
+    if (res.statusCode == 200) {
+      return (jsonDecode(res.body)['id']);
+    }
+    return null;
   }
 
   // Add order to firestore after payment completion
