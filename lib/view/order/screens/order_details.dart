@@ -6,6 +6,7 @@ import 'package:quickfix/state/order/models/order_status.dart';
 import 'package:quickfix/state/order/providers/can_cancel.dart';
 import 'package:quickfix/state/order/repository/update_order.dart';
 import 'package:quickfix/state/product/providers/product_by_id.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/components/boolean_dialog.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/extensions/formated_datetime.dart';
@@ -56,7 +57,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
   }
 
   showSnackbar() {
-    ScaffoldMessenger.of(context)
+    ref
+        .read(scaffoldMessengerProvider)
         .showSnackBar(const SnackBar(content: Text('Order cancelled!')));
   }
 

@@ -56,7 +56,6 @@ class CartItemShimmer extends StatelessWidget {
                         ),
                         onPressed: null,
                         icon: const Icon(Icons.remove)),
-                    Text(''),
                     IconButton(
                         style: ButtonStyle(
                           shape: const MaterialStatePropertyAll(

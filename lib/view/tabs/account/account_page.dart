@@ -32,47 +32,47 @@ class AccountPage extends ConsumerWidget {
             ),
             const SizedBox(height: 10),
             ListTile(
-              title: Text('Login \& Security'),
+              title: const Text('Login & Security'),
               tileColor: Colors.white30,
-              trailing: Icon(Icons.navigate_next),
+              trailing: const Icon(Icons.navigate_next),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => LoginSecurityPage(),
+                  builder: (context) => const LoginSecurityPage(),
                 ));
               },
             ),
             const SizedBox(height: 10),
             ListTile(
-              title: Text('Address'),
+              title: const Text('Address'),
               tileColor: Colors.white30,
-              trailing: Icon(Icons.navigate_next),
+              trailing: const Icon(Icons.navigate_next),
               onTap: () {},
             ),
             const SizedBox(height: 10),
             Consumer(builder: (context, ref, child) {
               return ListTile(
-                title: Text('Log out'),
+                title: const Text('Log out'),
                 tileColor: Colors.white30,
-                trailing: Icon(Icons.logout),
+                trailing: const Icon(Icons.logout),
                 onTap: () {
                   ref.read(authRepositoryNotifierProvider.notifier).signOut();
                 },
               );
             }),
             ListTile(
-              title: Text('Test'),
+              title: const Text('Test'),
               tileColor: Colors.white30,
-              trailing: Icon(Icons.navigate_next),
+              trailing: const Icon(Icons.navigate_next),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TestScreen(),
+                  builder: (context) => const TestScreen(),
                 ));
               },
             ),
             ListTile(
-              title: Text('Payment test'),
+              title: const Text('Payment test'),
               tileColor: Colors.white30,
-              trailing: Icon(Icons.navigate_next),
+              trailing: const Icon(Icons.navigate_next),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => OrderSuccessPage(

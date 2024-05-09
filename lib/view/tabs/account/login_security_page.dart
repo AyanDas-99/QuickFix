@@ -15,7 +15,7 @@ class _LoginSecurityPageState extends ConsumerState<LoginSecurityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(false, context: context, canGoBack: true),
-      body: Column(
+      body: const Column(
         children: [
           Text("Login & Security"),
           TextField(

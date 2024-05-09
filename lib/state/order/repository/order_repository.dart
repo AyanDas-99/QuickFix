@@ -12,7 +12,6 @@ import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
-import 'dart:developer' as dev;
 
 part 'order_repository.g.dart';
 

@@ -84,7 +84,7 @@ class _ProductImageState extends State<ProductImage> {
                 widget.images.length,
                 (index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         backgroundColor: Colors.grey,
                         radius: 5,
                       )

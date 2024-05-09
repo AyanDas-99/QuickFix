@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/auth/otp_screen.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
@@ -42,7 +43,8 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
             resendToken: resentToken,
             phoneNumber: '+91${phoneNumberController.text}',
             showMessage: (String text) {
-              ScaffoldMessenger.of(context)
+              ref
+                  .read(scaffoldMessengerProvider)
                   .showSnackBar(SnackBar(content: Text(text)));
             },
             codeSent: (String id, int? token) async {
@@ -96,9 +98,9 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
                       maxLength: 10,
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.all(10),
+                          contentPadding: const EdgeInsets.all(10),
                           hintText: "Phone number",
-                          prefixIcon: Icon(Icons.phone),
+                          prefixIcon: const Icon(Icons.phone),
                           prefixIconColor: Colors.grey,
                           filled: true,
                           prefixText: _phoneFocusNode.hasFocus ? '+91 ' : null),

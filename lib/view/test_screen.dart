@@ -7,6 +7,7 @@ import 'package:quickfix/state/order/models/order_status.dart';
 import 'package:quickfix/state/product/models/description.dart';
 import 'package:quickfix/state/product/models/product_payload.dart';
 import 'package:quickfix/state/product/respositories/add_product.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/user/repositories/update_user.dart';
 import 'package:quickfix/state/utils/pick_image.dart';
 
@@ -38,11 +39,11 @@ class _TestScreenState extends ConsumerState<TestScreen> {
         .read(updateUserRepositoryProvider.notifier)
         .updateAddress(address);
     if (isUpdated) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Shipping address updated!')));
+      ref.read(scaffoldMessengerProvider).showSnackBar(
+          const SnackBar(content: Text('Shipping address updated!')));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Shipping address update failed!')));
+      ref.read(scaffoldMessengerProvider).showSnackBar(
+          const SnackBar(content: Text('Shipping address update failed!')));
     }
   }
 
@@ -71,9 +72,9 @@ class _TestScreenState extends ConsumerState<TestScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: Text('Add product'),
+              title: const Text('Add product'),
               tileColor: Colors.white30,
-              trailing: Icon(Icons.navigate_next),
+              trailing: const Icon(Icons.navigate_next),
               onTap: () async {
                 final images = await PickImage.pickImages(3);
                 print(images);
@@ -139,7 +140,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                       return null;
                     },
                     controller: streetController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: 'House no. | Flat no. | Building name'),
                   ),
                   TextFormField(
@@ -150,7 +151,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                       return null;
                     },
                     controller: cityController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: 'Landmark. Eg - Near shiv Mandir'),
                   ),
                   TextFormField(
@@ -161,7 +162,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                       return null;
                     },
                     controller: streetController,
-                    decoration: InputDecoration(hintText: 'Street'),
+                    decoration: const InputDecoration(hintText: 'Street'),
                   ),
                   TextFormField(
                     validator: (value) {
@@ -171,7 +172,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                       return null;
                     },
                     controller: cityController,
-                    decoration: InputDecoration(hintText: 'City'),
+                    decoration: const InputDecoration(hintText: 'City'),
                   ),
                   TextFormField(
                     validator: (value) {
@@ -181,7 +182,7 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                       return null;
                     },
                     controller: stateController,
-                    decoration: InputDecoration(hintText: 'State'),
+                    decoration: const InputDecoration(hintText: 'State'),
                   ),
                   TextFormField(
                     validator: (value) {
@@ -191,13 +192,13 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                       return null;
                     },
                     controller: pincodeController,
-                    decoration: InputDecoration(hintText: 'Pincode'),
+                    decoration: const InputDecoration(hintText: 'Pincode'),
                   ),
                   TextButton(
                       onPressed: userUpdateLoading ? null : updateAddress,
                       child: userUpdateLoading
                           ? const CircularProgressIndicator()
-                          : Text('Update address')),
+                          : const Text('Update address')),
                 ],
               ),
             ),
@@ -215,8 +216,8 @@ class _TestScreenState extends ConsumerState<TestScreen> {
                     DropdownButton(
                       items: OrderStatus.values
                           .map((e) => DropdownMenuItem(
-                                child: Text(e.name),
                                 value: e,
+                                child: Text(e.name),
                               ))
                           .toList(),
                       onChanged: (value) {

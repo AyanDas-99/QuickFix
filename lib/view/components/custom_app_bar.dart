@@ -22,7 +22,7 @@ PreferredSizeWidget customAppBar(
               onPressed: () {
                 Navigator.of(context).maybePop();
               },
-              icon: Icon(Icons.navigate_before)),
+              icon: const Icon(Icons.navigate_before)),
       title: const Text(
         "QuickFix",
       ),

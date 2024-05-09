@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/order/models/order_payload.dart';
 import 'package:quickfix/state/order/repository/order_repository.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/user/providers/user_by_id.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/main_button.dart';
@@ -19,7 +20,7 @@ class ConfirmationScreen extends ConsumerStatefulWidget {
 }
 
 class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
-  Razorpay _razorpay = Razorpay();
+  final Razorpay _razorpay = Razorpay();
 
   @override
   void initState() {
@@ -58,13 +59,13 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
-    ScaffoldMessenger.of(context).showSnackBar(
+    ref.read(scaffoldMessengerProvider).showSnackBar(
         SnackBar(content: Text("Payment failed: ${response.message}")));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet is selected
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ref.read(scaffoldMessengerProvider).showSnackBar(SnackBar(
         content: Text("External Wallet selected : ${response.walletName}")));
   }
 
@@ -126,8 +127,8 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
                     const Divider(height: 10),
                     Row(
                       children: [
-                        Text('Total'),
-                        SizedBox(width: 10),
+                        const Text('Total'),
+                        const SizedBox(width: 10),
                         Text(widget.cart
                             .fold<int>(
                                 0,

@@ -7,12 +7,11 @@ class PaymentSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(paymentSuccessResponse);
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
                 Icon(
                   Icons.check_circle,

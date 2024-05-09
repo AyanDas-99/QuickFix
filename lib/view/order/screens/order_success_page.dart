@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
@@ -103,15 +101,15 @@ class OrderSuccessPage extends ConsumerWidget {
                           },
                           error: (e, st) => Container(),
                           loading: () => Shimmer.fromColors(
+                              baseColor: Colors.blueGrey.shade50,
+                              highlightColor: Colors.white,
                               child: Container(
                                 height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.grey,
                                 ),
-                              ),
-                              baseColor: Colors.blueGrey.shade50,
-                              highlightColor: Colors.white));
+                              )));
                     }).toList(),
                   ),
                 ],

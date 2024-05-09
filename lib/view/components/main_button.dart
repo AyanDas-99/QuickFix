@@ -17,11 +17,11 @@ class MainButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: child,
         style: ButtonStyle(
           backgroundColor: MaterialStatePropertyAll(backgroundColor),
-          shape: MaterialStatePropertyAll(RoundedRectangleBorder()),
+          shape: const MaterialStatePropertyAll(RoundedRectangleBorder()),
         ),
+        child: child,
       ),
     );
   }

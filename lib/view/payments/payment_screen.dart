@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/payments/payment_success_page.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'dart:developer' as dev;
@@ -36,13 +37,13 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
-    ScaffoldMessenger.of(context).showSnackBar(
+    ref.read(scaffoldMessengerProvider).showSnackBar(
         SnackBar(content: Text("Payment failed: ${response.message}")));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet is selected
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ref.read(scaffoldMessengerProvider).showSnackBar(SnackBar(
         content: Text("External Wallet selected : ${response.walletName}")));
   }
 
@@ -79,7 +80,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
             onPressed: () {
               openCheckout();
             },
-            child: Text("Pay")),
+            child: const Text("Pay")),
       ),
     );
   }

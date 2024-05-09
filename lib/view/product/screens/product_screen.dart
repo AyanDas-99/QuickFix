@@ -5,6 +5,7 @@ import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/cart/model/cart_payload.dart';
 import 'package:quickfix/state/cart/repository/cart_repository.dart';
 import 'package:quickfix/state/product/models/product.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/user/repositories/update_user.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/order/screens/confirmation_screen.dart';
@@ -43,11 +44,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
     final done =
         await ref.read(cartRepositoryProvider.notifier).addToCart(cartPayload);
     if (done) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Added to cart')));
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(const SnackBar(content: Text('Added to cart')));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add product to cart')));
+      ref.read(scaffoldMessengerProvider).showSnackBar(
+          const SnackBar(content: Text('Failed to add product to cart')));
     }
   }
 
@@ -66,7 +68,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
             radius: 10,
             child: IconButton(
                 onPressed: () => Navigator.maybePop(context),
-                icon: Icon(
+                icon: const Icon(
                   Icons.navigate_before,
                   size: 35,
                   color: Colors.white,
@@ -99,7 +101,8 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                     ),
                     Text(
                       '\u{20B9} ${widget.product.mrp}',
-                      style: TextStyle(decoration: TextDecoration.lineThrough),
+                      style: const TextStyle(
+                          decoration: TextDecoration.lineThrough),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -107,24 +110,24 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                         Flexible(
                           child: MainButton(
                             onPressed: buy,
-                            child: Text(
+                            backgroundColor: QFTheme.mainGreen,
+                            child: const Text(
                               'Buy Now',
                               style: TextStyle(color: Colors.white),
                             ),
-                            backgroundColor: QFTheme.mainGreen,
                           ),
                         ),
                         const SizedBox(width: 20),
                         Flexible(
                           child: MainButton(
                             onPressed: addToCart,
+                            backgroundColor: QFTheme.mainGrey,
                             child: cartLoading
                                 ? const CircularProgressIndicator()
-                                : Text(
+                                : const Text(
                                     'Add to cart',
                                     style: TextStyle(color: Colors.black),
                                   ),
-                            backgroundColor: QFTheme.mainGrey,
                           ),
                         ),
                       ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickfix/state/product/providers/category.dart';
 import 'package:quickfix/state/product/strings/categories.dart';
-import 'package:quickfix/view/theme/QFTheme.dart';
 
 class CategoryScrollView extends StatefulWidget {
   const CategoryScrollView({super.key});
@@ -18,11 +17,11 @@ class _CategoryScrollViewState extends State<CategoryScrollView> {
       height: 70,
       width: MediaQuery.of(context).size.width,
       child: ListView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         scrollDirection: Axis.horizontal,
         children: categories
             .map((e) => Consumer(builder: (context, ref, child) {
-                  return InkWell(
+                  return GestureDetector(
                       onTap: () {
                         ref.read(categoryProvider.notifier).state = e;
                       },
@@ -50,15 +49,19 @@ class CategoryItem extends StatelessWidget {
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-          color: selected ? QFTheme.mainGreen : Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.black)),
+          boxShadow: [
+            BoxShadow(
+                color: selected ? Colors.green : Colors.grey.shade400,
+                offset: selected ? const Offset(0, 6) : const Offset(0, 3))
+          ]),
       child: Center(
           child: Text(
         category,
         style: TextStyle(
           fontSize: 18,
-          color: selected ? Colors.white : Colors.black,
+          color: Colors.black,
           fontWeight: selected ? FontWeight.w500 : FontWeight.normal,
         ),
       )),

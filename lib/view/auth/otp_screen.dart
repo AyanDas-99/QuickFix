@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
 import 'dart:developer' as dev;
@@ -36,7 +37,9 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
   String error = '';
 
   showMessage(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    ref
+        .read(scaffoldMessengerProvider)
+        .showSnackBar(SnackBar(content: Text(text)));
   }
 
   checkOtp() async {
@@ -71,7 +74,7 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
   int start = 120;
 
   void startTimer() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (start == 0) {
         setState(() {
           timer.cancel();
@@ -113,7 +116,8 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
       ref.read(authRepositoryNotifierProvider.notifier).phoneSignUp(
             phoneNumber: widget.phoneNumber,
             showMessage: (String text) {
-              ScaffoldMessenger.of(context)
+              ref
+                  .read(scaffoldMessengerProvider)
                   .showSnackBar(SnackBar(content: Text(text)));
             },
             codeSent: (String id, int? token) async {
@@ -142,11 +146,11 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Verification Code",
               style: TextStyle(fontSize: 30),
             ),
-            Text(
+            const Text(
               "A verification code has been sent to your mobile number",
             ),
             if (error.isNotEmpty)
@@ -319,7 +323,7 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                         ? const CircularProgressIndicator()
                         : Text(
                             (start == 0) ? "Resend OTP" : "Submit",
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                   )
                 ],

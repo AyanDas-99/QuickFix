@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/firebase_options.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/state/auth/models/auth_result.dart';
+import 'package:quickfix/state/providers/scaffold_messenger_key.dart';
 import 'package:quickfix/view/auth/register_screen_controller.dart';
 import 'package:quickfix/view/tabs/tab_controller.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
@@ -20,24 +21,14 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authRepositoryNotifierProvider);
-    // final isLoading = ref.watch(isLoadingProvider);
     return MaterialApp(
+      scaffoldMessengerKey: ref.watch(scaffoldMessagerKeyProvider),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: QFTheme.theme,
