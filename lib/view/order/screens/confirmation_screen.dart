@@ -33,14 +33,14 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     final uid = ref.read(userProvider)!.uid;
     final user = await ref.read(UserByIdProvider(uid).future);
     final added = await ref.read(orderRepositoryProvider.notifier).addOrder(
-        OrderPayload(
-            orderId: response.orderId,
+        orderPayload: OrderPayload(
             userId: uid,
             price: widget.cart.fold<int>(
                 0, (previousValue, item) => previousValue + item.subtotal),
             isCashOnDelivery: false,
             shippingAddress: user.shippingAddress!,
-            items: widget.cart));
+            items: widget.cart),
+        id: response.orderId);
 
     dev.log('Order added: $added');
 

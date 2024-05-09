@@ -70,12 +70,11 @@ class OrderRepository extends _$OrderRepository {
           0, (previousValue, item) => previousValue + item.subtotal);
       final OrderPayload payload = OrderPayload(
           userId: uid,
-          orderId: null,
           price: totalPrice,
           isCashOnDelivery: true,
           shippingAddress: user.shippingAddress!,
           items: cart);
-      final addedToDb = await addOrder(payload);
+      final addedToDb = await addOrder(orderPayload: payload);
       state = false;
       return addedToDb;
     } catch (e) {
@@ -113,13 +112,14 @@ class OrderRepository extends _$OrderRepository {
   }
 
   // Add order to firestore after payment completion
-  Future<bool> addOrder(OrderPayload orderPayload) async {
+  Future<bool> addOrder(
+      {required OrderPayload orderPayload, String? id}) async {
     state = true;
     try {
-      final docRef = await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection(FirebaseFieldNames.ordersCollection)
-          .add(orderPayload);
-      final doc = await docRef.get();
+          .doc(id)
+          .set(orderPayload);
       state = false;
       // return doc.data();
       return true;

@@ -7,5 +7,4 @@ class OrderFieldNames {
   static const isCashOnDelivery = 'is-cash-on-delivery';
   static const shippingAddress = 'shipping-address';
   static const items = 'items';
-  static const orderId = 'order-id';
 }

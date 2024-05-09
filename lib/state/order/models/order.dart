@@ -16,7 +16,6 @@ class Order {
   final bool isCashOnDelivery;
   final ShippingAddress shippingAddress;
   final List<CartItem> items;
-  final String? orderId;
 
   Order({
     required this.id,
@@ -27,7 +26,6 @@ class Order {
     required this.isCashOnDelivery,
     required this.shippingAddress,
     required this.items,
-    required this.orderId,
   });
 
   // Map<String, dynamic> toMap() {
@@ -60,7 +58,6 @@ class Order {
           (x) => CartItem.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      orderId: map[OrderFieldNames.orderId],
     );
   }
 
