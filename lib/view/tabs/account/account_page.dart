@@ -5,7 +5,6 @@ import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
 import 'package:quickfix/view/order/screens/order_success_page.dart';
-import 'package:quickfix/view/payments/payment_screen.dart';
 import 'package:quickfix/view/tabs/account/login_security_page.dart';
 import 'package:quickfix/view/test_screen.dart';
 

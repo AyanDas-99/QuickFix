@@ -44,9 +44,8 @@ class HomePage extends ConsumerWidget {
                             product: products.elementAt(index),
                           ),
                         ),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 4 / 5, crossAxisCount: 2),
                       );
                     },
                     error: (e, st) => const Text("Error"),
