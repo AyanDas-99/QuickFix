@@ -22,7 +22,6 @@ class _TabControllerScreenState extends State<TabControllerScreen> {
     CartPage(),
     OrdersPage(),
     AccountPage(),
-    // Random(),
   ];
 
   @override

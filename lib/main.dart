@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/firebase_options.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/state/auth/models/auth_result.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/providers/scaffold_messenger_key.dart';
+import 'package:quickfix/state/utils/check_internet.dart';
 import 'package:quickfix/view/auth/register_screen_controller.dart';
 import 'package:quickfix/view/tabs/tab_controller.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
@@ -27,10 +29,34 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authRepositoryNotifierProvider);
+    final internetConnected = ref.watch(checkInternetProvider);
+    internetConnected.whenData((connected) {
+      if (!connected) {
+        ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
+              shape: StadiumBorder(),
+              behavior: SnackBarBehavior.floating,
+              content: Text(
+                'Internet not conneected!',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+            ));
+      } else {
+        ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
+              shape: StadiumBorder(),
+              behavior: SnackBarBehavior.floating,
+              content: Text(
+                'Your connection is back!',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.blue,
+            ));
+      }
+    });
     return MaterialApp(
       scaffoldMessengerKey: ref.watch(scaffoldMessagerKeyProvider),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'QuickFix',
       theme: QFTheme.theme,
       home: (authState.authResult == AuthResult.success)
           ? const TabControllerScreen()

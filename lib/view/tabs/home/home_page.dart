@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/product/providers/all_products_by_category.dart';
+import 'package:quickfix/state/utils/check_internet.dart';
 import 'package:quickfix/view/product/screens/product_screen.dart';
 import 'package:quickfix/view/tabs/home/components/category_scroll_view.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
