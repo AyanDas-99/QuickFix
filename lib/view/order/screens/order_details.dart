@@ -133,55 +133,61 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                     return product.when(
                       data: (product) => Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              flex: 3,
-                              child: Image.network(
-                                (product!.images.isEmpty)
-                                    ? ''
-                                    : product.images.first,
-                                width: 200,
-                                fit: BoxFit.contain,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Container(
-                                    color: Colors.grey,
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Center(
-                                    child: Icon(Icons.image, size: 40),
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Flexible(
-                                flex: 4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      product.name,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
+                        child: (product == null)
+                            ? const Text(
+                                'The product does not exist. It might have been deleted by the owner. Any pending delivery of this will be cancelled and refunded.')
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    flex: 3,
+                                    child: Image.network(
+                                      (product.images.isEmpty)
+                                          ? ''
+                                          : product.images.first,
+                                      width: 200,
+                                      fit: BoxFit.contain,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return Container(
+                                          color: Colors.grey,
+                                        );
+                                      },
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const Center(
+                                          child: Icon(Icons.image, size: 40),
+                                        );
+                                      },
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text('Quantity: ${e.quantity}'),
-                                    Text(
-                                      '\u{20B9} ${e.price}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14),
-                                    )
-                                  ],
-                                ))
-                          ],
-                        ),
+                                  ),
+                                  const SizedBox(width: 20),
+                                  Flexible(
+                                      flex: 4,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            product.name,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text('Quantity: ${e.quantity}'),
+                                          Text(
+                                            '\u{20B9} ${e.price}',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          )
+                                        ],
+                                      ))
+                                ],
+                              ),
                       ),
                       error: (error, stackTrace) => Container(),
                       loading: () => Shimmer.fromColors(

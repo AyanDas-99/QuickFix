@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:quickfix/state/models/shipping_address.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/strings/firebase_field_names.dart';
 import 'package:quickfix/state/user/strings/user_field_names.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
@@ -22,6 +24,9 @@ class UpdateUserRepository extends _$UpdateUserRepository {
     state = true;
     final user = ref.read(userProvider);
     try {
+      if (name.isEmpty) {
+        throw 'Name cannot be empty';
+      }
       final userRef = await FirebaseFirestore.instance
           .collection("users")
           .where(UserFieldNames.uid, isEqualTo: user!.uid)
@@ -33,9 +38,24 @@ class UpdateUserRepository extends _$UpdateUserRepository {
       await ref.watch(userProvider)!.updateDisplayName(name);
       await ref.watch(userProvider)!.reload();
       state = false;
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(const SnackBar(content: Text('Name updated!')));
       return true;
+    } on FirebaseException catch (e) {
+      dev.log("Profile name update", error: e);
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(SnackBar(content: Text(e.code)));
+
+      state = false;
+      return false;
     } catch (e) {
       dev.log("Profile name update", error: e);
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+
       state = false;
       return false;
     }
@@ -52,9 +72,17 @@ class UpdateUserRepository extends _$UpdateUserRepository {
       await userRef.docs.first.reference
           .update({UserFieldNames.shippingAddress: shippingAddress.toMap()});
       state = false;
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(const SnackBar(content: Text('Address updated!')));
+
       return true;
     } catch (e) {
       dev.log('Shipping address update error', error: e);
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+
       state = false;
       return false;
     }

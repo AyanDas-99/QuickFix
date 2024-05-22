@@ -7,6 +7,7 @@ import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/user/providers/user_by_id.dart';
 import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/main_button.dart';
+import 'package:quickfix/view/extensions/shorten.dart';
 import 'package:quickfix/view/order/screens/order_success_page.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'dart:developer' as dev;
@@ -101,68 +102,81 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
   Widget build(BuildContext context) {
     final uid = ref.watch(userProvider)!.uid;
     final user = ref.watch(UserByIdProvider(uid));
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Confirm order details'),
-      ),
-      body: user.when(
-        data: (user) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.white,
-                  child: Text(user.shippingAddress.toString()),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  color: Colors.white,
-                  child: Column(children: [
-                    ...widget.cart.map((e) => Row(
+    final orderLoading = ref.watch(orderRepositoryProvider);
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text('Confirm order details'),
+          ),
+          body: user.when(
+            data: (user) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      child: Text(user.shippingAddress.toString()),
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      color: Colors.white,
+                      child: Column(children: [
+                        ...widget.cart.map((e) => Row(
+                              children: [
+                                Text(e.name.shorten(25)),
+                                Text(
+                                    '${e.quantity} X ${e.price} = ${e.subtotal}'),
+                              ],
+                            )),
+                        const Divider(height: 10),
+                        Row(
                           children: [
-                            Text(e.name),
-                            Text('${e.quantity} X ${e.price} = ${e.subtotal}'),
+                            const Text('Total'),
+                            const SizedBox(width: 10),
+                            Text(widget.cart
+                                .fold<int>(
+                                    0,
+                                    (previousValue, cartItem) =>
+                                        previousValue + cartItem.subtotal)
+                                .toString())
                           ],
-                        )),
-                    const Divider(height: 10),
-                    Row(
-                      children: [
-                        const Text('Total'),
-                        const SizedBox(width: 10),
-                        Text(widget.cart
-                            .fold<int>(
-                                0,
-                                (previousValue, cartItem) =>
-                                    previousValue + cartItem.subtotal)
-                            .toString())
-                      ],
-                    ),
-                    const SizedBox(height: 50),
-                    MainButton(
-                      onPressed: payNow,
-                      backgroundColor: Colors.green,
-                      child: const Text(
-                        'Pay Now',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    MainButton(
-                        onPressed: payOnDelivery,
-                        backgroundColor: Colors.blue,
-                        child: const Text(
-                          'Pay on Delivery',
-                          style: TextStyle(color: Colors.white),
-                        ))
-                  ]),
-                )
-              ],
+                        ),
+                        const SizedBox(height: 50),
+                        MainButton(
+                          onPressed: payNow,
+                          backgroundColor: Colors.green,
+                          child: const Text(
+                            'Pay Now',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        MainButton(
+                            onPressed: payOnDelivery,
+                            backgroundColor: Colors.blue,
+                            child: const Text(
+                              'Pay on Delivery',
+                              style: TextStyle(color: Colors.white),
+                            ))
+                      ]),
+                    )
+                  ],
+                ),
+              );
+            },
+            error: (e, st) => Text(e.toString()),
+            loading: () => const CircularProgressIndicator(),
+          ),
+        ),
+        if (orderLoading)
+          Container(
+            color: Colors.black.withOpacity(0.7),
+            child: const Center(
+              child: CircularProgressIndicator(),
             ),
-          );
-        },
-        error: (e, st) => Text(e.toString()),
-        loading: () => const CircularProgressIndicator(),
-      ),
+          )
+      ],
     );
   }
 }
