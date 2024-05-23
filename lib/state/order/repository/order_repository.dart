@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/order/models/order_payload.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/strings/firebase_field_names.dart';
 import 'package:quickfix/state/typedefs.dart';
 import 'package:quickfix/state/user/providers/user_by_id.dart';
@@ -34,6 +36,10 @@ class OrderRepository extends _$OrderRepository {
       final uid = ref.read(userProvider)!.uid;
       final user = await ref.read(UserByIdProvider(uid).future);
 
+      if (user.shippingAddress == null) {
+        throw 'Please add your shipping address from the UPDATE PROFILE section';
+      }
+
       final totalPrice = cart.fold<int>(
           0, (previousValue, item) => previousValue + item.subtotal);
 
@@ -56,6 +62,9 @@ class OrderRepository extends _$OrderRepository {
       return true;
     } catch (e) {
       state = false;
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
       return false;
     }
   }
@@ -65,6 +74,9 @@ class OrderRepository extends _$OrderRepository {
     try {
       final uid = ref.read(userProvider)!.uid;
       final user = await ref.read(UserByIdProvider(uid).future);
+      if (user.shippingAddress == null) {
+        throw 'Please add your shipping address from the UPDATE PROFILE section';
+      }
       final totalPrice = cart.fold<int>(
           0, (previousValue, item) => previousValue + item.subtotal);
       final OrderPayload payload = OrderPayload(
@@ -78,6 +90,10 @@ class OrderRepository extends _$OrderRepository {
       return addedToDb;
     } catch (e) {
       state = false;
+      ref
+          .read(scaffoldMessengerProvider)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+
       return false;
     }
   }
