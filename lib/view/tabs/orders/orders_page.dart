@@ -4,6 +4,7 @@ import 'package:quickfix/state/order/models/order.dart';
 import 'package:quickfix/state/order/providers/orders_provider.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
 import 'package:quickfix/view/order/screens/order_details.dart';
+import 'package:quickfix/view/tabs/orders/components/empty_sign.dart';
 import 'package:quickfix/view/tabs/orders/components/order_card.dart';
 
 class OrdersPage extends ConsumerWidget {
@@ -18,6 +19,9 @@ class OrdersPage extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: orders.when(
             data: (ordersIterable) {
+              if (ordersIterable.isEmpty) {
+                return const Center(child: EmptySign());
+              }
               final List<Order> orders = ordersIterable.toList();
               orders.sort((a, b) => a.timestamp.isAfter(b.timestamp) ? 0 : 1);
               return ListView.builder(

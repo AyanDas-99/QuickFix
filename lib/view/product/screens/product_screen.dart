@@ -11,6 +11,7 @@ import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/order/screens/confirmation_screen.dart';
 import 'package:quickfix/view/product/components/details.dart';
 import 'package:quickfix/view/product/components/product_image.dart';
+import 'package:quickfix/view/strings.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
 
 class ProductScreen extends ConsumerStatefulWidget {
@@ -86,51 +87,62 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                   children: [
                     Text(
                       widget.product.name,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Text(widget.product.description),
                     const SizedBox(height: 20),
-                    Text(widget.product.stock == 0
-                        ? "Not In stock"
-                        : "${widget.product.stock} in Stock"),
-                    const SizedBox(height: 20),
-                    Text(
-                      '\u{20B9} ${widget.product.price}',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(
-                      '\u{20B9} ${widget.product.mrp}',
-                      style: const TextStyle(
-                          decoration: TextDecoration.lineThrough),
-                    ),
-                    const SizedBox(height: 20),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Flexible(
-                          child: MainButton(
-                            onPressed: buy,
-                            backgroundColor: QFTheme.mainGreen,
-                            child: const Text(
-                              'Buy Now',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '$rupee ${widget.product.price}',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              ),
+                              Text(
+                                '$rupee ${widget.product.mrp}',
+                                style: const TextStyle(
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 20),
-                        Flexible(
-                          child: MainButton(
-                            onPressed: addToCart,
-                            backgroundColor: QFTheme.mainGrey,
-                            child: cartLoading
-                                ? const CircularProgressIndicator()
-                                : const Text(
-                                    'Add to cart',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
+                        Expanded(
+                          child: Text(
+                            widget.product.stock == 0
+                                ? "Not In stock"
+                                : "${widget.product.stock} in Stock",
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 20),
+                    MainButton(
+                      onPressed: buy,
+                      backgroundColor: QFTheme.mainGreen,
+                      child: const Text(
+                        'BUY NOW',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    MainButton(
+                      onPressed: addToCart,
+                      backgroundColor: Colors.black,
+                      child: cartLoading
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                              'ADD TO CART',
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
                     const SizedBox(height: 20),
                     Details(
@@ -138,7 +150,8 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

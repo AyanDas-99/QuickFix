@@ -46,7 +46,7 @@ class MyApp extends ConsumerWidget {
               shape: StadiumBorder(),
               behavior: SnackBarBehavior.floating,
               content: Text(
-                'Your connection is back!',
+                'You are connected to internet!',
                 style: TextStyle(color: Colors.white),
               ),
               backgroundColor: Colors.blue,

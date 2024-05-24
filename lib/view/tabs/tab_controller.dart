@@ -77,36 +77,47 @@ class _TabControllerScreenState extends State<TabControllerScreen> {
                   data: (user) {
                     if (user.shippingAddress == null) {
                       return InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ProfileEdit(),
-                          ));
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          color: Colors.red,
-                          child: const Padding(
-                            padding: EdgeInsets.all(30.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Click to please add your shipping address.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Divider(
-                                  color: Colors.white,
-                                ),
-                              ],
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const ProfileEdit(),
+                            ));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(30)),
+                              color: Colors.red,
                             ),
-                          ),
-                        ).animate(delay: 2.seconds).moveY(
-                            begin: -150, end: 0, curve: Curves.fastOutSlowIn),
-                      );
+                            child: const Padding(
+                              padding: EdgeInsets.all(30.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Click to please add your shipping address.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                              .animate(
+                                delay: 2.seconds,
+                              )
+                              .moveY(
+                                duration: 1.seconds,
+                                begin: -150,
+                                end: 0,
+                                curve: Curves.fastOutSlowIn,
+                              ));
                     }
                     return Container();
                   },

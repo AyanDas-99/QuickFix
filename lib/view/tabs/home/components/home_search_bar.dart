@@ -8,6 +8,10 @@ class HomeSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = TextEditingController();
     return SearchBar(
+      backgroundColor: MaterialStatePropertyAll(Colors.white),
+      surfaceTintColor: MaterialStatePropertyAll(Colors.white),
+      shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       controller: controller,
       hintText: "Search",
       leading: const Icon(Icons.search),

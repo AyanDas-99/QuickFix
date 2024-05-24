@@ -40,4 +40,9 @@ class CartItem {
 
   factory CartItem.fromJson(String source) =>
       CartItem.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return '$name | $price | $quantity';
+  }
 }

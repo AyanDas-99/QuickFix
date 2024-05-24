@@ -10,6 +10,7 @@ import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/components/boolean_dialog.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/extensions/formated_datetime.dart';
+import 'package:quickfix/view/strings.dart';
 import 'package:shimmer/shimmer.dart';
 
 class OrderDetailsScreen extends ConsumerStatefulWidget {
@@ -99,7 +100,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                         const Expanded(child: Text('Total cost')),
                         Expanded(
                           child: Text(
-                              '\u{20B9} ${widget.order.items.fold<int>(0, (previousValue, element) => previousValue + element.subtotal)}'),
+                              '$rupee ${widget.order.items.fold<int>(0, (previousValue, element) => previousValue + element.subtotal)}'),
                         )
                       ],
                     ),
@@ -149,8 +150,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                       fit: BoxFit.contain,
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
+                                        if (loadingProgress == null) {
                                           return child;
+                                        }
                                         return Container(
                                           color: Colors.grey,
                                         );
@@ -179,7 +181,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                           const SizedBox(height: 10),
                                           Text('Quantity: ${e.quantity}'),
                                           Text(
-                                            '\u{20B9} ${e.price}',
+                                            '$rupee ${e.price}',
                                             style: const TextStyle(
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14),
@@ -242,7 +244,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
               if (widget.order.orderStatus == OrderStatus.pending)
                 canCancel.when(
                     data: (bool canCancel) {
-                      if (canCancel) {
+                      if (canCancel &&
+                          widget.order.orderStatus == OrderStatus.pending) {
                         return MainButton(
                           onPressed: updateOrderLoading ? () {} : cancelOrder,
                           backgroundColor: updateOrderLoading

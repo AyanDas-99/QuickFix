@@ -4,6 +4,7 @@ import 'package:quickfix/state/order/models/order.dart';
 import 'package:quickfix/state/order/models/order_status.dart';
 import 'package:quickfix/state/product/providers/product_by_id.dart';
 import 'package:quickfix/view/tabs/orders/components/cancelled_badge.dart';
+import 'package:quickfix/view/tabs/orders/components/delivered_badge.dart';
 import 'package:shimmer/shimmer.dart';
 
 class OrderCard extends ConsumerWidget {
@@ -108,9 +109,22 @@ class OrderCard extends ConsumerWidget {
         ),
         if (order.orderStatus == OrderStatus.cancelled)
           Positioned(
-              bottom: 50,
-              left: 0,
-              child: Transform.rotate(angle: 45, child: const CancelledBadge()))
+            bottom: 50,
+            left: 0,
+            child: Transform.rotate(
+              angle: 45,
+              child: const CancelledBadge(),
+            ),
+          ),
+        if (order.orderStatus == OrderStatus.delivered)
+          Positioned(
+            bottom: 50,
+            left: 0,
+            child: Transform.rotate(
+              angle: 45,
+              child: const DeliveredBadge(),
+            ),
+          ),
       ],
     );
   }

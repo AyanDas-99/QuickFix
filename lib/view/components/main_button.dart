@@ -21,7 +21,10 @@ class MainButton extends StatelessWidget {
           backgroundColor: MaterialStatePropertyAll(backgroundColor),
           shape: const MaterialStatePropertyAll(RoundedRectangleBorder()),
         ),
-        child: child,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 7),
+          child: child,
+        ),
       ),
     );
   }

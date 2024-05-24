@@ -20,6 +20,7 @@ class CartPage extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: cart.when(
           data: (cart) {
+            print(cart);
             if (cart.isEmpty) {
               return const Center(
                 child: EmptySign(),
@@ -35,7 +36,7 @@ class CartPage extends ConsumerWidget {
                     },
                     backgroundColor: QFTheme.mainGreen,
                     child: const Text(
-                      'Proceed to buy',
+                      'BUY',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     )),
                 const SizedBox(height: 10),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quickfix/state/product/models/product.dart';
 import 'package:quickfix/view/extensions/shorten.dart';
+import 'package:quickfix/view/strings.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductCard extends StatelessWidget {
@@ -52,7 +53,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '\u{20B9} ${product.price}',
+                  '$rupee ${product.price}',
                   style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,

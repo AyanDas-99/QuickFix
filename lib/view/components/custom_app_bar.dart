@@ -26,15 +26,6 @@ PreferredSizeWidget customAppBar(
       title: const Text(
         "QuickFix",
       ),
-      actions: home
-          ? [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.menu,
-                  ))
-            ]
-          : null,
       bottom: home
           ? const PreferredSize(
               preferredSize: Size.fromHeight(10),

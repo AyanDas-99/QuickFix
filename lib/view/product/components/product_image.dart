@@ -78,21 +78,23 @@ class _ProductImageState extends State<ProductImage> {
                   }).toList(),
           ),
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-                widget.images.length,
-                (index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        radius: 5,
-                      )
-                          .animate(target: (currentPage == index) ? 0 : 1)
-                          .scale(end: const Offset(0.5, 0.5))
-                          .moveY(begin: -2),
-                    )),
-          )
+          if (widget.images.length > 1)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                  widget.images.length,
+                  (index) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          radius: 5,
+                        )
+                            .animate(target: (currentPage == index) ? 0 : 1)
+                            .scale(end: const Offset(0.5, 0.5))
+                            .moveY(begin: -2),
+                      )),
+            ),
+          const SizedBox(height: 10),
         ],
       );
     });

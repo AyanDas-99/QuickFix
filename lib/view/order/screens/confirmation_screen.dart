@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/order/models/order_payload.dart';
@@ -9,6 +10,7 @@ import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/extensions/shorten.dart';
 import 'package:quickfix/view/order/screens/order_success_page.dart';
+import 'package:quickfix/view/strings.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'dart:developer' as dev;
 
@@ -103,6 +105,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     final uid = ref.watch(userProvider)!.uid;
     final user = ref.watch(UserByIdProvider(uid));
     final orderLoading = ref.watch(orderRepositoryProvider);
+    print(widget.cart);
     return Stack(
       children: [
         Scaffold(
@@ -111,58 +114,95 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
           ),
           body: user.when(
             data: (user) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.white,
-                      child: Text(user.shippingAddress.toString()),
-                    ),
-                    const SizedBox(height: 30),
-                    Container(
-                      color: Colors.white,
-                      child: Column(children: [
-                        ...widget.cart.map((e) => Row(
+              return ListView(
+                padding: const EdgeInsets.all(10),
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    color: Colors.white,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Product',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          ...widget.cart.map((e) => Row(
+                                children: [
+                                  Expanded(
+                                      flex: 1, child: Text(e.name.shorten(25))),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                        '${e.quantity} X ${e.price} = $rupee ${e.subtotal}'),
+                                  ),
+                                ],
+                              )),
+                          const Divider(
+                            height: 30,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                               children: [
-                                Text(e.name.shorten(25)),
-                                Text(
-                                    '${e.quantity} X ${e.price} = ${e.subtotal}'),
+                                const TextSpan(text: 'Total   '),
+                                TextSpan(
+                                    text:
+                                        '$rupee ${widget.cart.fold<int>(0, (previousValue, cartItem) => previousValue + cartItem.subtotal).toString()}')
                               ],
-                            )),
-                        const Divider(height: 10),
-                        Row(
-                          children: [
-                            const Text('Total'),
-                            const SizedBox(width: 10),
-                            Text(widget.cart
-                                .fold<int>(
-                                    0,
-                                    (previousValue, cartItem) =>
-                                        previousValue + cartItem.subtotal)
-                                .toString())
-                          ],
-                        ),
-                        const SizedBox(height: 50),
-                        MainButton(
-                          onPressed: payNow,
-                          backgroundColor: Colors.green,
-                          child: const Text(
-                            'Pay Now',
-                            style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ]),
+                  ),
+                  const SizedBox(height: 50),
+                  Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Shipping Address',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        MainButton(
-                            onPressed: payOnDelivery,
-                            backgroundColor: Colors.blue,
-                            child: const Text(
-                              'Pay on Delivery',
-                              style: TextStyle(color: Colors.white),
-                            ))
-                      ]),
-                    )
-                  ],
-                ),
+                        const SizedBox(height: 20),
+                        (user.shippingAddress == null)
+                            ? const Text(
+                                'Please add a shipping address before placing order.',
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : Text(user.shippingAddress.toString()),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  MainButton(
+                    onPressed: payNow,
+                    backgroundColor: Colors.green,
+                    child: const Text(
+                      'Pay Now',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  MainButton(
+                      onPressed: payOnDelivery,
+                      backgroundColor: Colors.blue,
+                      child: const Text(
+                        'Pay on Delivery',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ],
               );
             },
             error: (e, st) => Text(e.toString()),
