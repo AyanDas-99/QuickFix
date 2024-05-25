@@ -131,14 +131,17 @@ class CartItemCard extends ConsumerWidget {
                                   backgroundColor: MaterialStatePropertyAll(
                                       Colors.blueGrey.shade50),
                                 ),
-                                onPressed: () {
-                                  ref
-                                      .read(cartRepositoryProvider.notifier)
-                                      .addToCart(CartPayload(
-                                          name: product.name,
-                                          price: product.price,
-                                          productId: product.id));
-                                },
+                                onPressed: (cartItem.quantity < product.stock)
+                                    ? () {
+                                        ref
+                                            .read(
+                                                cartRepositoryProvider.notifier)
+                                            .addToCart(CartPayload(
+                                                name: product.name,
+                                                price: product.price,
+                                                productId: product.id));
+                                      }
+                                    : null,
                                 icon: const Icon(Icons.add)),
                           ],
                         ),

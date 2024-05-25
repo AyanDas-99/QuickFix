@@ -26,7 +26,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
   CarouselController controller = CarouselController();
 
   void buy() {
-    if (widget.product.stock == 0) {
+    if (widget.product.stock < 1) {
       ref
           .read(scaffoldMessengerProvider)
           .showSnackBar(const SnackBar(content: Text('Product not in stock!')));
@@ -45,7 +45,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
   }
 
   void addToCart() async {
-    if (widget.product.stock == 0) {
+    if (widget.product.stock < 1) {
       ref
           .read(scaffoldMessengerProvider)
           .showSnackBar(const SnackBar(content: Text('Product not in stock!')));

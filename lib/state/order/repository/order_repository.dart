@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
+import 'package:quickfix/state/cart/strings/cart_field_names.dart';
 import 'package:quickfix/state/order/models/order_payload.dart';
+import 'package:quickfix/state/order/strings/order_field_names.dart';
+import 'package:quickfix/state/product/strings/product_field_names.dart';
 import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/strings/firebase_field_names.dart';
 import 'package:quickfix/state/typedefs.dart';
@@ -14,6 +17,7 @@ import 'package:quickfix/state/user/providers/user_provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'dart:developer' as dev;
 
 part 'order_repository.g.dart';
 
@@ -135,11 +139,23 @@ class OrderRepository extends _$OrderRepository {
           .collection(FirebaseFieldNames.ordersCollection)
           .doc(id)
           .set(orderPayload);
+
+      for (var item in orderPayload[OrderFieldNames.items] as List) {
+        dev.log('Updating ${item}');
+        await FirebaseFirestore.instance
+            .collection(FirebaseFieldNames.productsCollection)
+            .doc(item[CartFieldNames.productId])
+            .update({
+          ProductFieldNames.stock:
+              FieldValue.increment(-item[CartFieldNames.quantity])
+        });
+      }
       state = false;
       // return doc.data();
       return true;
     } catch (e) {
       state = false;
+      dev.log('Error in addOrder (orderRepository)', error: e);
       return false;
     }
   }

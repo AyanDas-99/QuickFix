@@ -88,6 +88,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
     bool ordered = await ref
         .read(orderRepositoryProvider.notifier)
         .payOnDelivery(widget.cart);
+    dev.log('Order success ${widget.cart} $ordered');
     if (ordered) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
