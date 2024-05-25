@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quickfix/state/auth/%20repositories/user_storage_repository.dart';
 import 'package:quickfix/state/auth/models/auth_result.dart';
 import 'package:quickfix/state/auth/models/auth_state.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
+import 'package:quickfix/state/user/providers/user_by_id.dart';
 import 'dart:developer' as developer;
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,13 +17,21 @@ part 'auth_repository.g.dart';
 class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
   @override
   AuthState build() {
-    if (_fAUth.currentUser != null && _fAUth.currentUser?.phoneNumber != null) {
-      return AuthState(
-          authResult: AuthResult.success,
-          isLoading: false,
-          userId: _fAUth.currentUser?.uid);
-    }
+    _checkLoggedIn();
     return const AuthState.unknown();
+  }
+
+  void _checkLoggedIn() async {
+    if (_fAUth.currentUser != null && _fAUth.currentUser?.phoneNumber != null) {
+      final user =
+          await ref.read(UserByIdProvider(_fAUth.currentUser?.uid).future);
+      if (user != null) {
+        state = AuthState(
+            authResult: AuthResult.success,
+            isLoading: false,
+            userId: _fAUth.currentUser?.uid);
+      }
+    }
   }
 
   final FirebaseAuth _fAUth = FirebaseAuth.instance;
@@ -111,7 +122,6 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
   // Phone sign up
   Future<void> phoneSignUp({
     required String phoneNumber,
-    required Function(String) showMessage,
     required Function(String, int?) codeSent,
     int? resendToken,
     String? name,
@@ -125,13 +135,19 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
       // If user does not exist and name is not provided, show error
       if (!userExists && name == null) {
         state = state.copyWithIsLoading(false);
-        showMessage('User with phone number does not exist. Please sign up');
+        ref.read(scaffoldMessengerProvider).showSnackBar(SnackBar(
+            content:
+                Text('User with phone number does not exist. Please sign up')));
         return;
       }
       // if user exist and name is still provided, i.e sign up attempted
       if (userExists && name != null) {
         state = state.copyWithIsLoading(false);
-        showMessage('User with this phone number already exists, Please login');
+        ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
+              content: Text(
+                  'User with this phone number already exists, Please login'),
+            ));
+
         return;
       }
 
@@ -144,9 +160,13 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
           },
           verificationFailed: (e) {
             if (e.code == 'invalid-phone-number') {
-              showMessage("Invalid phone number");
+              ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
+                    content: Text("Invalid phone number"),
+                  ));
             } else {
-              showMessage("Sign in with phone number failed");
+              ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
+                    content: Text("Sign in with phone number failed"),
+                  ));
             }
             state = state.copyWithIsLoading(false);
           },
@@ -171,6 +191,7 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
       required Function(String) showMessage,
       required String? name}) async {
     try {
+      developer.log('name is $name');
       state = state.copyWithIsLoading(true);
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: otp);
@@ -178,9 +199,10 @@ class AuthRepositoryNotifier extends _$AuthRepositoryNotifier {
       final user = FirebaseAuth.instance.currentUser!;
       if (name != null) {
         await user.updateDisplayName(name);
+        await FirebaseAuth.instance.currentUser!.reload();
       }
 
-      await UserStorageRepository().storeUserToDb(user);
+      await UserStorageRepository().storeUserToDb(user, name: name);
 
       state = AuthState(
           authResult: AuthResult.success, isLoading: false, userId: user.uid);

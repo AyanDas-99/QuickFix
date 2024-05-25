@@ -45,11 +45,6 @@ class _SignUpWithPhoneState extends ConsumerState<SignUpWithPhone> {
             phoneNumber: '+91${phoneNumberController.text}',
             name: nameController.text,
             resendToken: resendToken,
-            showMessage: (String text) {
-              ref
-                  .read(scaffoldMessengerProvider)
-                  .showSnackBar(SnackBar(content: Text(text)));
-            },
             codeSent: (String id, int? token) {
               resendToken = token;
               Navigator.of(context).push(MaterialPageRoute(

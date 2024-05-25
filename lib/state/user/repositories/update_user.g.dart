@@ -7,7 +7,7 @@ part of 'update_user.dart';
 // **************************************************************************
 
 String _$updateUserRepositoryHash() =>
-    r'48b25759a06e50024df2d81c70b0b236b523f0f0';
+    r'f3e056efb2bcc46e90317303cd12d1a1a97a88ba';
 
 /// See also [UpdateUserRepository].
 @ProviderFor(UpdateUserRepository)

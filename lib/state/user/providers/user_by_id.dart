@@ -21,7 +21,7 @@ part 'user_by_id.g.dart';
 // }
 
 @Riverpod(keepAlive: true)
-Stream<User> userById(UserByIdRef ref, String? uid) {
+Stream<User?> userById(UserByIdRef ref, String? uid) {
   final controller = StreamController<User>();
 
   final sub = FirebaseFirestore.instance

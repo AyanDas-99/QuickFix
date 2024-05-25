@@ -36,7 +36,7 @@ class OrderRepository extends _$OrderRepository {
       final uid = ref.read(userProvider)!.uid;
       final user = await ref.read(UserByIdProvider(uid).future);
 
-      if (user.shippingAddress == null) {
+      if (user!.shippingAddress == null) {
         throw 'Please add your shipping address from the UPDATE PROFILE section';
       }
 
@@ -74,7 +74,7 @@ class OrderRepository extends _$OrderRepository {
     try {
       final uid = ref.read(userProvider)!.uid;
       final user = await ref.read(UserByIdProvider(uid).future);
-      if (user.shippingAddress == null) {
+      if (user!.shippingAddress == null) {
         throw 'Please add your shipping address from the UPDATE PROFILE section';
       }
       final totalPrice = cart.fold<int>(

@@ -6,7 +6,7 @@ part of 'user_by_id.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$userByIdHash() => r'71776ca64cb8780a30a259b23d336f5d979a04b2';
+String _$userByIdHash() => r'760a31c6cc8e6a71629e47820855ed996824f7ff';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ class _SystemHash {
 const userByIdProvider = UserByIdFamily();
 
 /// See also [userById].
-class UserByIdFamily extends Family<AsyncValue<User>> {
+class UserByIdFamily extends Family<AsyncValue<User?>> {
   /// See also [userById].
   const UserByIdFamily();
 
@@ -72,7 +72,7 @@ class UserByIdFamily extends Family<AsyncValue<User>> {
 }
 
 /// See also [userById].
-class UserByIdProvider extends StreamProvider<User> {
+class UserByIdProvider extends StreamProvider<User?> {
   /// See also [userById].
   UserByIdProvider(
     String? uid,
@@ -106,7 +106,7 @@ class UserByIdProvider extends StreamProvider<User> {
 
   @override
   Override overrideWith(
-    Stream<User> Function(UserByIdRef provider) create,
+    Stream<User?> Function(UserByIdRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -123,7 +123,7 @@ class UserByIdProvider extends StreamProvider<User> {
   }
 
   @override
-  StreamProviderElement<User> createElement() {
+  StreamProviderElement<User?> createElement() {
     return _UserByIdProviderElement(this);
   }
 
@@ -141,12 +141,12 @@ class UserByIdProvider extends StreamProvider<User> {
   }
 }
 
-mixin UserByIdRef on StreamProviderRef<User> {
+mixin UserByIdRef on StreamProviderRef<User?> {
   /// The parameter `uid` of this provider.
   String? get uid;
 }
 
-class _UserByIdProviderElement extends StreamProviderElement<User>
+class _UserByIdProviderElement extends StreamProviderElement<User?>
     with UserByIdRef {
   _UserByIdProviderElement(super.provider);
 

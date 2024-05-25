@@ -42,11 +42,6 @@ class _LoginWithPhoneState extends ConsumerState<LoginWithPhone> {
       ref.read(authRepositoryNotifierProvider.notifier).phoneSignUp(
             resendToken: resentToken,
             phoneNumber: '+91${phoneNumberController.text}',
-            showMessage: (String text) {
-              ref
-                  .read(scaffoldMessengerProvider)
-                  .showSnackBar(SnackBar(content: Text(text)));
-            },
             codeSent: (String id, int? token) async {
               resentToken = token;
               print(resentToken);

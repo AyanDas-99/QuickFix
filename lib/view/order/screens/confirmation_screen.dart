@@ -42,7 +42,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
             price: widget.cart.fold<int>(
                 0, (previousValue, item) => previousValue + item.subtotal),
             isCashOnDelivery: false,
-            shippingAddress: user.shippingAddress!,
+            shippingAddress: user!.shippingAddress!,
             items: widget.cart),
         id: response.orderId);
 
@@ -176,7 +176,7 @@ class _ConfirmationScreenState extends ConsumerState<ConfirmationScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        (user.shippingAddress == null)
+                        (user!.shippingAddress == null)
                             ? const Text(
                                 'Please add a shipping address before placing order.',
                                 style: TextStyle(color: Colors.red),

@@ -75,7 +75,7 @@ class _TabControllerScreenState extends State<TabControllerScreen> {
               pages[currentPage],
               user.when(
                   data: (user) {
-                    if (user.shippingAddress == null) {
+                    if (user!.shippingAddress == null) {
                       return InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(

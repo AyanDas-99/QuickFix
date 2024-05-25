@@ -115,11 +115,6 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
     if (start == 0) {
       ref.read(authRepositoryNotifierProvider.notifier).phoneSignUp(
             phoneNumber: widget.phoneNumber,
-            showMessage: (String text) {
-              ref
-                  .read(scaffoldMessengerProvider)
-                  .showSnackBar(SnackBar(content: Text(text)));
-            },
             codeSent: (String id, int? token) async {
               print(token);
               Navigator.of(context).pushReplacement(MaterialPageRoute(

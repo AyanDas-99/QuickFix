@@ -8,7 +8,7 @@ import 'package:quickfix/state/user/strings/user_field_names.dart';
 class UserStorageRepository {
   final db = FirebaseFirestore.instance;
 
-  Future<bool> storeUserToDb(User user) async {
+  Future<bool> storeUserToDb(User user, {String? name}) async {
     try {
       final a = await db
           .collection('users')
@@ -19,7 +19,7 @@ class UserStorageRepository {
       }
 
       final payload = UserPayload(
-        displayName: user.displayName,
+        displayName: user.displayName ?? name,
         uid: user.uid,
         photoUrl: user.photoURL,
         phoneNumber: user.phoneNumber,
