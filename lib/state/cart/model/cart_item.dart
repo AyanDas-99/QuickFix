@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:quickfix/state/cart/strings/cart_field_names.dart';
 
-class CartItem {
+class CartItem extends Equatable {
   final String name;
   final int price;
   final String productId;
@@ -45,4 +46,7 @@ class CartItem {
   String toString() {
     return '$name | $price | $quantity';
   }
+
+  @override
+  List<Object?> get props => [productId, name, price, quantity];
 }
