@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
-import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/auth/otp_screen.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/theme/QFTheme.dart';
