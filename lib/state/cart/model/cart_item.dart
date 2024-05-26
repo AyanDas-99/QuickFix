@@ -8,7 +8,7 @@ class CartItem extends Equatable {
   final String name;
   final int price;
   final String productId;
-  final int quantity;
+  int quantity;
 
   CartItem({
     required this.name,
