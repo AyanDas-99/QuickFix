@@ -71,6 +71,7 @@ dev_dependencies:
   custom_lint: ^0.6.4
   riverpod_generator: ^2.4.0
   build_runner: ^2.4.9
+  flutter_launcher_icons: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -85,8 +86,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/phone.jpeg
-    - assets/images/phone2.jpeg
     - assets/logo/quickfix_logo.png
     - .env
 
@@ -115,3 +114,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/logo/logo_square.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/logo/quickfix_logo.png"
+    background_color: "#000"
+    theme_color: "#000"
+  windows:
+    generate: true
+    image_path: "assets/logo/quickfix_logo.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/logo/quickfix_logo.png"
