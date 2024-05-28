@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
 import 'package:quickfix/state/cart/providers/cart.dart';
 import 'package:quickfix/state/product/providers/product_by_id.dart';
+import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/view/components/custom_app_bar.dart';
 import 'package:quickfix/view/components/main_button.dart';
 import 'package:quickfix/view/order/screens/confirmation_screen.dart';
@@ -40,6 +41,15 @@ class CartPage extends ConsumerWidget {
       if (product!.stock != 0) {
         finalCart.add(item);
       }
+    }
+
+    if (finalCart.isEmpty) {
+      ref.read(scaffoldMessengerProvider).showSnackBar(
+            const SnackBar(
+              content: Text('No item in cart can be ordered!'),
+            ),
+          );
+      return;
     }
 
     navigator.push(MaterialPageRoute(

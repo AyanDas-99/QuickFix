@@ -5,6 +5,7 @@ import 'package:quickfix/state/cart/model/cart_payload.dart';
 import 'package:quickfix/state/cart/repository/cart_repository.dart';
 import 'package:quickfix/state/product/providers/product_by_id.dart';
 import 'package:quickfix/view/components/main_button.dart';
+import 'package:quickfix/view/extensions/shorten.dart';
 import 'package:quickfix/view/product/screens/product_screen.dart';
 import 'package:quickfix/view/strings.dart';
 import 'package:quickfix/view/tabs/cart/components/cart_item_shimmer.dart';
@@ -78,7 +79,7 @@ class CartItemCard extends ConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      product.name,
+                                      product.name.shorten(30),
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                     const SizedBox(height: 10),

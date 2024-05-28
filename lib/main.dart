@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/firebase_options.dart';
 import 'package:quickfix/state/auth/%20repositories/auth_repository.dart';
 import 'package:quickfix/state/auth/models/auth_result.dart';
-import 'package:quickfix/state/providers/scaffold_messenger.dart';
 import 'package:quickfix/state/providers/scaffold_messenger_key.dart';
 import 'package:quickfix/state/utils/check_internet.dart';
 import 'package:quickfix/view/auth/register_screen_controller.dart';

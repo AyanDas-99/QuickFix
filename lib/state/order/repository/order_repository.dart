@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:quickfix/state/cart/model/cart_item.dart';
+import 'package:quickfix/state/cart/repository/cart_repository.dart';
 import 'package:quickfix/state/cart/strings/cart_field_names.dart';
 import 'package:quickfix/state/order/models/order_payload.dart';
 import 'package:quickfix/state/order/strings/order_field_names.dart';
@@ -149,6 +150,13 @@ class OrderRepository extends _$OrderRepository {
           ProductFieldNames.stock:
               FieldValue.increment(-item[CartFieldNames.quantity])
         });
+      }
+
+      // Deleting item from cart
+      for (var item in orderPayload[OrderFieldNames.items]) {
+        ref
+            .read(cartRepositoryProvider.notifier)
+            .deleteItem(item[CartFieldNames.productId]);
       }
       state = false;
       // return doc.data();
