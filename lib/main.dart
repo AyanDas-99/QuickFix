@@ -29,7 +29,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authRepositoryNotifierProvider);
-    final internetConnected = ref.watch(checkInternetProvider);
+    ref.watch(checkInternetProvider);
 
     return MaterialApp(
       scaffoldMessengerKey: ref.watch(scaffoldMessagerKeyProvider),

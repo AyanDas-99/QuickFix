@@ -6,7 +6,7 @@ part of 'check_internet.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$checkInternetHash() => r'3e629b98f0cdf785f8a830df6c9446dc2020857f';
+String _$checkInternetHash() => r'8ad392fae217f23243e19f58732ff4e73d02447d';
 
 /// See also [checkInternet].
 @ProviderFor(checkInternet)
