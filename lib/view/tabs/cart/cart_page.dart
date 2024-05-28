@@ -14,17 +14,37 @@ class CartPage extends ConsumerWidget {
   const CartPage({super.key});
 
   void cleanup(List<CartItem> cart, BuildContext context, WidgetRef ref) async {
+    var toRemove = [];
     for (var item in cart) {
       final product =
           await ref.read(ProductByIdProvider(item.productId).future);
       if (product == null) {
         cart.remove(item);
       } else {
-        if (item.quantity > product.stock) {
+        if (product.stock == 0) {
+          toRemove.add(item);
+        } else if (item.quantity > product.stock) {
           item.quantity = product.stock;
         }
       }
     }
+  }
+
+  buy(List<CartItem> cart, BuildContext context, WidgetRef ref) async {
+    final navigator = Navigator.of(context);
+
+    List<CartItem> finalCart = [];
+    for (var item in cart) {
+      final product =
+          await ref.read(ProductByIdProvider(item.productId).future);
+      if (product!.stock != 0) {
+        finalCart.add(item);
+      }
+    }
+
+    navigator.push(MaterialPageRoute(
+      builder: (context) => ConfirmationScreen(cart: finalCart),
+    ));
   }
 
   @override
@@ -36,10 +56,8 @@ class CartPage extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: cart.when(
           data: (cart) {
-            print(cart);
             // Quantity cleanup
             cleanup(cart, context, ref);
-
             //
 
             if (cart.isEmpty) {
@@ -50,11 +68,7 @@ class CartPage extends ConsumerWidget {
             return ListView(
               children: [
                 MainButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ConfirmationScreen(cart: cart),
-                      ));
-                    },
+                    onPressed: () => buy(cart, context, ref),
                     backgroundColor: QFTheme.mainGreen,
                     child: const Text(
                       'BUY',

@@ -30,29 +30,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authRepositoryNotifierProvider);
     final internetConnected = ref.watch(checkInternetProvider);
-    internetConnected.whenData((connected) {
-      if (!connected) {
-        ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
-              shape: StadiumBorder(),
-              behavior: SnackBarBehavior.floating,
-              content: Text(
-                'Internet not conneected!',
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red,
-            ));
-      } else {
-        ref.read(scaffoldMessengerProvider).showSnackBar(const SnackBar(
-              shape: StadiumBorder(),
-              behavior: SnackBarBehavior.floating,
-              content: Text(
-                'You are connected to internet!',
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.blue,
-            ));
-      }
-    });
+
     return MaterialApp(
       scaffoldMessengerKey: ref.watch(scaffoldMessagerKeyProvider),
       debugShowCheckedModeBanner: false,

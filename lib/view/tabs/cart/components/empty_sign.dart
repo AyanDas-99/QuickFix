@@ -16,7 +16,7 @@ class EmptySign extends StatelessWidget {
         ),
         SizedBox(height: 20),
         Text(
-          'Shopping bad is empty :(',
+          'Shopping bag is empty :(',
           style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
         )
       ],
