@@ -14,10 +14,55 @@
       },
       "oauth_client": [
         {
+          "client_id": "315612745871-6qa0dvoqn3iafpfg3e4jt0p1li8cvg1f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theboringapp.quickfix",
+            "certificate_hash": "7a71a145281d29a4bc575c6abfba7dd1af391955"
+          }
+        },
+        {
           "client_id": "315612745871-9rle6ej04ultbhcft25jvv3cnvamjadp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.theboringapp.quickfix",
+            "certificate_hash": "1d5e1516777631bab2b7ce62c6b6777598ff62dc"
+          }
+        },
+        {
+          "client_id": "315612745871-vfcsmebtftjku038cmk8l2dueaosa6jk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxHeFqSLBp4yUBihqfEUtEyoEVjZ3QsZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315612745871-vfcsmebtftjku038cmk8l2dueaosa6jk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315612745871:android:dbd7dac4885fb531b120fa",
+        "android_client_info": {
+          "package_name": "com.theboringapp.quickfix_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315612745871-0gj9ne12b1o4p7dhsi26taludqlcs5b5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theboringapp.quickfix_admin",
             "certificate_hash": "1d5e1516777631bab2b7ce62c6b6777598ff62dc"
           }
         },

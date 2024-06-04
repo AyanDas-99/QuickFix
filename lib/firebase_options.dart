@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'quickfix-719b0',
     storageBucket: 'quickfix-719b0.appspot.com',
   );
+
 }
