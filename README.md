@@ -1,16 +1,23 @@
 # quickfix
 
-A new Flutter project.
+E commerce android app to buy refurbished electronic products with good UI and payment integration.
 
-## Getting Started
+![QuickFix](https://github.com/user-attachments/assets/ad9fc641-0ae2-4547-88b6-764ae3b372a5)
 
-This project is a starting point for a Flutter application.
+## Features
+- Phone number based authentication
+- Category based selection of products
+- Search products based on name, category or description
+- Cart to add for buying later
+- Pay for products with any payment method, integrated using Razorpay payment gateway
+- Orders page to see details or cancel order
 
-A few resources to get you started if this is your first Flutter project:
+**Run the app**
+ ```
+    flutter run
+ ```
+## Contributing
+I would love your contributions! Feel free to submit pull requests.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License
+This project is licensed under the MIT License.
